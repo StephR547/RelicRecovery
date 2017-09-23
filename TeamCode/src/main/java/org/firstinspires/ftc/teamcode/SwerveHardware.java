@@ -10,17 +10,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class SwerveHardware {
 
-    public DcMotor frontLeftMotor = null;
-    public DcMotor frontRightMotor = null;
-    public DcMotor backLeftMotor = null;
-    public DcMotor backRightMotor = null;
-
-    public Servo frontLeftServo = null;
-    public Servo frontRightServo = null;
-    public Servo backLeftServo = null;
-    public Servo backRightServo = null;
-
     HardwareMap hwMap = null;
+
+    public SwerveDrive swerveDrive = null;
 
     public SwerveHardware() {
 
@@ -30,10 +22,10 @@ public class SwerveHardware {
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        frontLeftMotor = hwMap.dcMotor.get("frontLeftMotor");
-        frontRightMotor = hwMap.dcMotor.get("frontRightMotor");
-        backLeftMotor = hwMap.dcMotor.get("backLeftMotor");
-        backRightMotor = hwMap.dcMotor.get("backRightMotor");
+        DcMotor frontLeftMotor = hwMap.dcMotor.get("frontLeftMotor");
+        DcMotor frontRightMotor = hwMap.dcMotor.get("frontRightMotor");
+        DcMotor backLeftMotor = hwMap.dcMotor.get("backLeftMotor");
+        DcMotor backRightMotor = hwMap.dcMotor.get("backRightMotor");
 
         // Set all motors to zero power
         frontLeftMotor.setPower(0);
@@ -49,15 +41,22 @@ public class SwerveHardware {
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //Define and Initialize Servos
-        frontLeftServo = hwMap.servo.get("frontLeftServo");
-        frontRightServo = hwMap.servo.get("frontRightServo");
-        backLeftServo = hwMap.servo.get("backLeftServo");
-        backRightServo = hwMap.servo.get("backRightServo");
+        Servo frontLeftServo = hwMap.servo.get("frontLeftServo");
+        Servo frontRightServo = hwMap.servo.get("frontRightServo");
+        Servo backLeftServo = hwMap.servo.get("backLeftServo");
+        Servo backRightServo = hwMap.servo.get("backRightServo");
 
         frontLeftServo.setPosition(.5);
         frontRightServo.setPosition(.5);
         backLeftServo.setPosition(.5);
         backRightServo.setPosition(.5);
+
+        SwerveModule frontLeft = new SwerveModule(frontLeftMotor, frontLeftServo);
+        SwerveModule frontRight = new SwerveModule(frontRightMotor, frontRightServo);
+        SwerveModule backLeft = new SwerveModule(backLeftMotor, backLeftServo);
+        SwerveModule backRight = new SwerveModule(backRightMotor, backRightServo);
+
+        swerveDrive = new SwerveDrive(frontLeft, frontRight, backLeft, backRight);
     }
 
 }

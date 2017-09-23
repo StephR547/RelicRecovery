@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 /**
@@ -30,7 +29,7 @@ public class MecanumTeleop extends LinearOpMode {
 
             double max = Math.max(Math.abs(frontLeftPower), Math.max(Math.abs(frontRightPower), Math.max(Math.abs(backLeftPower), Math.abs(backRightPower))));
 
-            if (max > 1){
+            if (max > 1) {
                 frontLeftPower /= max;
                 frontRightPower /= max;
                 backLeftPower /= max;

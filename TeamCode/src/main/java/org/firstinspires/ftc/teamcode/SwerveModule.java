@@ -8,18 +8,24 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 
 class SwerveModule {
-    DcMotor motor;
-    Servo servo;
+    private DcMotor motor;
+    private Servo servo;
 
-    public void setMovement(float speed, float angle) {
+    public SwerveModule (DcMotor motor, Servo servo){
+        this.motor = motor;
+        this.servo = servo;
+
+    }
+
+    public void setMovement(double speed, double angle) {
         motor.setPower(speed);
 
-        float servoPosition = degreesToServo(angle);
+        double servoPosition = degreesToServo(angle);
         servo.setPosition(servoPosition);
 // TODO Servo code for angles greater than 90
     }
 
-    private float degreesToServo(float degrees) {
+    private double degreesToServo(double degrees) {
         return (degrees + 90)/ 180;
     }
 
