@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 /**
  * Created by StephanieRamirez on 8/19/17.
  */
@@ -13,6 +15,7 @@ public class SwerveHardware {
     HardwareMap hwMap = null;
 
     public SwerveDrive swerveDrive = null;
+    private Telemetry telemetry;
 
     public SwerveHardware() {
 
@@ -51,14 +54,18 @@ public class SwerveHardware {
         backLeftServo.setPosition(.5);
         backRightServo.setPosition(.5);
 
-        SwerveModule frontLeft = new SwerveModule(frontLeftMotor, frontLeftServo);
-        SwerveModule frontRight = new SwerveModule(frontRightMotor, frontRightServo);
-        SwerveModule backLeft = new SwerveModule(backLeftMotor, backLeftServo);
-        SwerveModule backRight = new SwerveModule(backRightMotor, backRightServo);
+        SwerveModule frontLeft = new SwerveModule(frontLeftMotor, frontLeftServo, telemetry);
+        SwerveModule frontRight = new SwerveModule(frontRightMotor, frontRightServo, telemetry);
+        SwerveModule backLeft = new SwerveModule(backLeftMotor, backLeftServo, telemetry);
+        SwerveModule backRight = new SwerveModule(backRightMotor, backRightServo, telemetry);
 
-        swerveDrive = new SwerveDrive(frontLeft, frontRight, backLeft, backRight);
+        swerveDrive = new SwerveDrive(frontLeft, frontRight, backLeft, backRight, telemetry);
+
     }
 
+    public void setTelemetry(Telemetry telemetry) {
+        this.telemetry = telemetry;
+    }
 }
 
 

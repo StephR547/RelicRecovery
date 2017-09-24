@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 /**
  * Created by StephanieRamirez on 8/19/17.
  */
@@ -15,6 +17,7 @@ public class SwerveTeleop extends LinearOpMode {
     @Override
     public void runOpMode() {
 
+        robot.setTelemetry(telemetry);
         robot.init(hardwareMap);
 
         while (true) {

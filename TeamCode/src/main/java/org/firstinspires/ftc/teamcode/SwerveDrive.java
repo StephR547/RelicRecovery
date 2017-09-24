@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 /**
  * Created by StephanieRamirez on 8/26/17.
  */
 
 public class SwerveDrive {
+    private final Telemetry telemetry;
     private SwerveModule frontLeft;
     private SwerveModule frontRight;
     private SwerveModule backLeft;
@@ -16,11 +19,12 @@ public class SwerveDrive {
     static final double LENGTH_RATIO = LENGTH/RADIUS;
     static final double WIDTH_RATIO = WIDTH/RADIUS;
 
-    public SwerveDrive(SwerveModule frontLeft, SwerveModule frontRight, SwerveModule backLeft, SwerveModule backRight){
+    public SwerveDrive(SwerveModule frontLeft, SwerveModule frontRight, SwerveModule backLeft, SwerveModule backRight, Telemetry telemetry){
         this.frontLeft = frontLeft;
         this.frontRight = frontRight;
         this.backLeft = backLeft;
         this.backRight = backRight;
+        this.telemetry = telemetry;
     }
 
     public void drive(double forward, double strafeRight, double rotateRight){
