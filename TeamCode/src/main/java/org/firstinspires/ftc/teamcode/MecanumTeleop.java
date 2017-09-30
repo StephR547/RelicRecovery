@@ -16,6 +16,8 @@ public class MecanumTeleop extends LinearOpMode {
 
         robot.init(hardwareMap);
 
+        waitForStart();
+
         while (opModeIsActive()) {
 
             double forward = -gamepad1.left_stick_y;
