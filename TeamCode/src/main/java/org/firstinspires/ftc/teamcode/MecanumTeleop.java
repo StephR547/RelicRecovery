@@ -24,6 +24,13 @@ public class MecanumTeleop extends LinearOpMode {
             double strafeRight = gamepad1.left_stick_x;
             double rotateRight = gamepad1.right_stick_x;
 
+            double heading = robot.imu.getheading();
+            double headingInRadians = Math.toRadians(heading);
+
+            double temp = forward * Math.cos(headingInRadians) + strafeRight * Math.sin(headingInRadians);
+            strafeRight = -forward * Math.sin(headingInRadians) + strafeRight * Math.cos(headingInRadians);
+            forward = temp;
+
             double frontLeftPower = forward + strafeRight + rotateRight;
             double frontRightPower = forward - strafeRight - rotateRight;
             double backLeftPower = forward - strafeRight + rotateRight;

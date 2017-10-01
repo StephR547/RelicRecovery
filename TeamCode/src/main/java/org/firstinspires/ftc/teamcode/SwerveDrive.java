@@ -20,6 +20,7 @@ public class SwerveDrive {
     static final double WIDTH_RATIO = WIDTH / RADIUS;
 
     public SwerveDrive(SwerveModule frontLeft, SwerveModule frontRight, SwerveModule backLeft, SwerveModule backRight, Telemetry telemetry) {
+
         this.frontLeft = frontLeft;
         this.frontRight = frontRight;
         this.backLeft = backLeft;
@@ -27,7 +28,12 @@ public class SwerveDrive {
         this.telemetry = telemetry;
     }
 
-    public void drive(double forward, double strafeRight, double rotateRight) {
+    public void drive(double forward, double strafeRight, double rotateRight, double heading) {
+        double headingInRadians = Math.toRadians(heading);
+
+        double temp = forward * Math.cos(headingInRadians) + strafeRight * Math.sin(headingInRadians);
+        strafeRight = -forward * Math.sin(headingInRadians) + strafeRight * Math.cos(headingInRadians);
+        forward = temp;
 
         if (forward == 0 && strafeRight == 0 && rotateRight == 0) {
             frontLeft.stop();
@@ -62,6 +68,7 @@ public class SwerveDrive {
         frontRight.setMovement(wheelSpeedFrontRight, wheelAngleFrontRight);
         backLeft.setMovement(wheelSpeedBackLeft, wheelAngleBackLeft);
         backRight.setMovement(wheelSpeedBackRight, wheelAngleBackRight);
+
 
     }
 

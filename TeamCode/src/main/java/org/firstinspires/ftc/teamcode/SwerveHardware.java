@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -15,6 +16,7 @@ public class SwerveHardware {
     HardwareMap hwMap = null;
 
     public SwerveDrive swerveDrive = null;
+    public IMU imu;
     private Telemetry telemetry;
 
     public SwerveHardware() {
@@ -23,6 +25,7 @@ public class SwerveHardware {
 
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
+        imu = new IMU(hwMap.get(BNO055IMU.class, "imu"));
 
         // Define and Initialize Motors
         DcMotor frontLeftMotor = hwMap.dcMotor.get("frontLeftMotor");

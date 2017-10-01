@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -13,6 +14,9 @@ public class MecanumHardware {
     public DcMotor backLeftMotor = null;
     public DcMotor backRightMotor = null;
 
+    public IMU imu;
+
+
     private HardwareMap hwMap = null;
 
     public MecanumHardware() {
@@ -21,6 +25,7 @@ public class MecanumHardware {
 
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
+        imu = new IMU(hwMap.get(BNO055IMU.class, "imu"));
 
         // Define and Initialize Motors
         frontLeftMotor = hwMap.dcMotor.get("frontLeftMotor");

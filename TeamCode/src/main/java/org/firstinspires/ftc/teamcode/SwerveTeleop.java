@@ -23,7 +23,9 @@ public class SwerveTeleop extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            robot.swerveDrive.drive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            robot.swerveDrive.drive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x,robot.imu.getheading());
+
+            telemetry.addData("heading", robot.imu.getheading());
 
             telemetry.update();
 
