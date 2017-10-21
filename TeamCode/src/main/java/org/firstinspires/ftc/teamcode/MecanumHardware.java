@@ -25,13 +25,16 @@ public class MecanumHardware {
 
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        imu = new IMU(hwMap.get(BNO055IMU.class, "imu"));
+       // imu = new IMU(hwMap.get(BNO055IMU.class, "imu"));
 
         // Define and Initialize Motors
         frontLeftMotor = hwMap.dcMotor.get("frontLeftMotor");
         frontRightMotor = hwMap.dcMotor.get("frontRightMotor");
         backLeftMotor = hwMap.dcMotor.get("backLeftMotor");
         backRightMotor = hwMap.dcMotor.get("backRightMotor");
+
+        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to zero power
         frontLeftMotor.setPower(0);
