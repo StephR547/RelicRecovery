@@ -1,36 +1,17 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
- * Created by StephanieRamirez on 10/14/17.
+ * Created by StephanieRamirez on 11/11/17.
  */
-@Autonomous(name = "MecanumDriveForward")
-public class MecanumDriveForward extends LinearOpMode {
+
+public abstract class MecanumAuton extends LinearOpMode {
+
     MecanumHardware robot = new MecanumHardware();
 
-    @Override
-    public void runOpMode() throws InterruptedException {
-
-        telemetry.log().add("about to int");
-        telemetry.update();
-        robot.init(hardwareMap);
-        telemetry.log().add("waiting for start");
-        telemetry.update();
-
-        waitForStart();
-
-        telemetry.log().add("starting");
-        telemetry.update();
-        strafeRight();
-        telemetry.log().add("after strafeRight");
-        telemetry.update();
-
-    }
-
-    public void forward() {
+    public void drive(int distance) {
 
         robot.frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -47,10 +28,10 @@ public class MecanumDriveForward extends LinearOpMode {
         robot.backLeftMotor.setPower(.5);
         robot.backRightMotor.setPower(.5);
 
-        robot.frontLeftMotor.setTargetPosition(1495 * 6);
-        robot.frontRightMotor.setTargetPosition(1495 * 6);
-        robot.backLeftMotor.setTargetPosition(1495 * 6);
-        robot.backRightMotor.setTargetPosition(1495 * 6);
+        robot.frontLeftMotor.setTargetPosition(distance);
+        robot.frontRightMotor.setTargetPosition(distance);
+        robot.backLeftMotor.setTargetPosition(distance);
+        robot.backRightMotor.setTargetPosition(distance);
 
         while (opModeIsActive()
                 && (robot.frontLeftMotor.isBusy()
@@ -110,7 +91,4 @@ public class MecanumDriveForward extends LinearOpMode {
         robot.backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
     }
-
-
 }
-

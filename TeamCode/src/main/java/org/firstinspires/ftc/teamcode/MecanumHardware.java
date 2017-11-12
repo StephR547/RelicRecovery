@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -23,8 +24,10 @@ public class MecanumHardware {
     public Servo topRightWheel = null;
     public Servo topPusher = null;
     public Servo topPincher = null;
+    public Servo jewelArm = null;
 
     public IMU imu;
+    public ColorSensor colorSensor;
 
 
     private HardwareMap hwMap = null;
@@ -78,6 +81,9 @@ public class MecanumHardware {
         topPusher = hwMap.servo.get("topPusher");
         topPincher = hwMap.servo.get("topPincher");
 
+        //Jewel Servo
+        jewelArm = hwMap.servo.get("jewelArm");
+
         //Bottom servos Initialize
         bottomLeftWheel.setPosition(.5);
         bottomRightWheel.setPosition(.5);
@@ -90,6 +96,15 @@ public class MecanumHardware {
         topPusher.setPosition(.5);
         topPincher.setPosition(.5);
 
+        //Jewel servo Initialize
+        jewelArm.setPosition(0);
+
+    }
+    public void initSensors() {
+
+        //Color sensor initialize
+        colorSensor = hwMap.colorSensor.get("colorsensor");
+        colorSensor.enableLed(true);
     }
 }
 
