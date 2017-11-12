@@ -40,7 +40,7 @@ public class MecanumRed extends MecanumAuton {
         robot.jewelArm.setPosition(0);
         Thread.sleep(3000);
 
-           drive(1495 * 3);
+           drive(-1495 * 3);
         telemetry.update();
 
     }
