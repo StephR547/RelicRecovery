@@ -66,6 +66,7 @@ public class MecanumHardware {
         elevatorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         initServos();
+        initSensors();
     }
     public void initServos() {
 
@@ -104,7 +105,7 @@ public class MecanumHardware {
 
         //Color sensor initialize
         colorSensor = hwMap.colorSensor.get("colorsensor");
-        colorSensor.enableLed(true);
+        colorSensor.enableLed(false);
     }
 }
 

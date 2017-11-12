@@ -24,7 +24,7 @@ public class MecanumRed extends MecanumAuton {
         telemetry.log().add("starting");
         telemetry.update();
 
-        robot.jewelArm.setPosition(.5);
+        robot.jewelArm.setPosition(.8);
         Thread.sleep(3000);
 
         int red = robot.colorSensor.red();
