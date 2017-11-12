@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * Created by StephanieRamirez on 9/22/17.
@@ -13,6 +14,15 @@ public class MecanumHardware {
     public DcMotor frontRightMotor = null;
     public DcMotor backLeftMotor = null;
     public DcMotor backRightMotor = null;
+    public DcMotor elevatorMotor = null;
+    public Servo bottomLeftWheel = null;
+    public Servo bottomRightWheel = null;
+    public Servo bottomPusher = null;
+    public Servo bottomPincher = null;
+    public Servo topLeftWheel = null;
+    public Servo topRightWheel = null;
+    public Servo topPusher = null;
+    public Servo topPincher = null;
 
     public IMU imu;
 
@@ -32,6 +42,7 @@ public class MecanumHardware {
         frontRightMotor = hwMap.dcMotor.get("frontRightMotor");
         backLeftMotor = hwMap.dcMotor.get("backLeftMotor");
         backRightMotor = hwMap.dcMotor.get("backRightMotor");
+        elevatorMotor = hwMap.dcMotor.get("elevatorMotor");
 
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -41,6 +52,7 @@ public class MecanumHardware {
         frontRightMotor.setPower(0);
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
+        elevatorMotor.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -48,6 +60,35 @@ public class MecanumHardware {
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        elevatorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        initServos();
+    }
+    public void initServos() {
+
+        //Bottom servos Define
+        bottomLeftWheel = hwMap.servo.get("bottomLeftWheel");
+        bottomRightWheel = hwMap.servo.get("bottomRightWheel");
+        bottomPusher = hwMap.servo.get("bottomPusher");
+        bottomPincher = hwMap.servo.get("bottomPincher");
+
+        //Top servos Define
+        topLeftWheel = hwMap.servo.get("topLeftWheel");
+        topRightWheel = hwMap.servo.get("topRightWheel");
+        topPusher = hwMap.servo.get("topPusher");
+        topPincher = hwMap.servo.get("topPincher");
+
+        //Bottom servos Initialize
+        bottomLeftWheel.setPosition(.5);
+        bottomRightWheel.setPosition(.5);
+        bottomPusher.setPosition(.5);
+        bottomPincher.setPosition(.5);
+
+        //Top servos Initialize
+        topLeftWheel.setPosition(.5);
+        topRightWheel.setPosition(.5);
+        topPusher.setPosition(.5);
+        topPincher.setPosition(.5);
 
     }
 }
