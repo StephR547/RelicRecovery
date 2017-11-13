@@ -11,6 +11,63 @@ public abstract class MecanumAuton extends LinearOpMode {
 
     MecanumHardware robot = new MecanumHardware();
 
+    @Override
+    public void runOpMode() throws InterruptedException {
+
+        telemetry.log().add("about to int");
+        telemetry.update();
+        robot.init(hardwareMap);
+        telemetry.log().add("waiting for start");
+        telemetry.update();
+
+        waitForStart();
+
+        telemetry.log().add("starting");
+        telemetry.update();
+
+        glyphPickUp();
+
+        robot.jewelArm.setPosition(.8);
+        Thread.sleep(3000);
+
+        jewelRemoval();
+
+        robot.jewelArm.setPosition(0);
+        Thread.sleep(3000);
+
+        driveToParkingZone();
+        telemetry.update();
+
+    }
+
+
+    public abstract void jewelRemoval();
+
+    public abstract void driveToParkingZone();
+
+    public void glyphPickUp() throws InterruptedException {
+
+        robot.bottomPincher.close();
+        robot.topPincher.close();
+
+        Thread.sleep(1000);
+
+        robot.bottomPincher.stop();
+        robot.topPincher.stop();
+
+
+        robot.bottomWheels.up();
+
+        robot.topWheels.up();
+
+        Thread.sleep(4000);
+
+        robot.bottomWheels.stop();
+
+        robot.topWheels.stop();
+
+    }
+
     public void drive(int distance) {
 
         robot.frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

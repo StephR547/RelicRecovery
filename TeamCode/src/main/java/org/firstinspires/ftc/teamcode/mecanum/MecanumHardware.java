@@ -17,14 +17,12 @@ public class MecanumHardware {
     public DcMotor backLeftMotor = null;
     public DcMotor backRightMotor = null;
     public DcMotor elevatorMotor = null;
-    public Servo bottomLeftWheel = null;
-    public Servo bottomRightWheel = null;
-    public Servo bottomPusher = null;
-    public Servo bottomPincher = null;
-    public Servo topLeftWheel = null;
-    public Servo topRightWheel = null;
-    public Servo topPusher = null;
-    public Servo topPincher = null;
+    public GlyphWheels bottomWheels = null;
+    public GlyphPusher topPusher = null;
+    public GlyphPincher bottomPincher = null;
+    public GlyphWheels topWheels = null;
+    public GlyphPusher bottomPusher = null;
+    public GlyphPincher topPincher = null;
     public Servo jewelArm = null;
 
     public IMU imu;
@@ -72,31 +70,27 @@ public class MecanumHardware {
     public void initServos() {
 
         //Bottom servos Define
-        bottomLeftWheel = hwMap.servo.get("bottomLeftWheel");
-        bottomRightWheel = hwMap.servo.get("bottomRightWheel");
-        bottomPusher = hwMap.servo.get("bottomPusher");
-        bottomPincher = hwMap.servo.get("bottomPincher");
+        bottomWheels = new GlyphWheels(hwMap.servo.get("bottomLeftWheel"), hwMap.servo.get("bottomRightWheel"));
+        bottomPusher = new GlyphPusher(hwMap.servo.get("bottomPusher"));
+        bottomPincher = new GlyphPincher(hwMap.servo.get("bottomPincher")) ;
 
         //Top servos Define
-        topLeftWheel = hwMap.servo.get("topLeftWheel");
-        topRightWheel = hwMap.servo.get("topRightWheel");
-        topPusher = hwMap.servo.get("topPusher");
-        topPincher = hwMap.servo.get("topPincher");
+        topWheels = new GlyphWheels(hwMap.servo.get("topLeftWheel"), hwMap.servo.get("topRightWheel"));
+        topPincher = new GlyphPincher(hwMap.servo.get("topPincher"));
+        topPusher = new GlyphPusher(hwMap.servo.get("topPusher"));
 
         //Jewel Servo
         jewelArm = hwMap.servo.get("jewelArm");
 
         //Bottom servos Initialize
-        bottomLeftWheel.setPosition(.5);
-        bottomRightWheel.setPosition(.5);
-        bottomPusher.setPosition(.5);
-        bottomPincher.setPosition(.5);
+        bottomWheels.stop();
+        bottomPusher.stop();
+        bottomPincher.stop();
 
         //Top servos Initialize
-        topLeftWheel.setPosition(.5);
-        topRightWheel.setPosition(.5);
-        topPusher.setPosition(.5);
-        topPincher.setPosition(.5);
+        topWheels.stop();
+        topPusher.stop();
+        topPincher.stop();
 
         //Jewel servo Initialize
         jewelArm.setPosition(0);

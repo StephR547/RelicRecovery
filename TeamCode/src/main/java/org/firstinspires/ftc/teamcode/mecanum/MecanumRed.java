@@ -9,21 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 public class MecanumRed extends MecanumAuton {
 
     @Override
-    public void runOpMode() throws InterruptedException {
-
-        telemetry.log().add("about to int");
-        telemetry.update();
-        robot.init(hardwareMap);
-        telemetry.log().add("waiting for start");
-        telemetry.update();
-
-        waitForStart();
-
-        telemetry.log().add("starting");
-        telemetry.update();
-
-        robot.jewelArm.setPosition(.8);
-        Thread.sleep(3000);
+    public void jewelRemoval() {
 
         int red = robot.colorSensor.red();
         int  blue = robot.colorSensor.blue();
@@ -36,13 +22,12 @@ public class MecanumRed extends MecanumAuton {
             drive(1495 /3);
             drive(-1495 /3);
         }
+    }
 
-        robot.jewelArm.setPosition(0);
-        Thread.sleep(3000);
+    @Override
+    public void driveToParkingZone() {
 
-           drive(-1495 * 3);
-        telemetry.update();
-
+        drive(-1495 * 3);
     }
 
 

@@ -61,50 +61,49 @@ public class MecanumTeleop extends LinearOpMode {
 
     public void servosControls() {
 
-        double topWheels = (-gamepad2.left_stick_y / 2) + 0.5;
+        double topWheelSpeed = (-gamepad2.left_stick_y / 2) + 0.5;
 
-        robot.topLeftWheel.setPosition(topWheels);
-        robot.topRightWheel.setPosition(topWheels);
+        robot.topWheels.setSpeed(topWheelSpeed);
 
-        double bottomWheels = (-gamepad2.right_stick_y / 2) + 0.5;
 
-        robot.bottomLeftWheel.setPosition(bottomWheels);
-        robot.bottomRightWheel.setPosition(bottomWheels);
+        double bottomWheelSpeed = (-gamepad2.right_stick_y / 2) + 0.5;
+
+        robot.bottomWheels.setSpeed(bottomWheelSpeed);
 
         //Bottom Pincher
         if (gamepad2.right_bumper){
-            robot.bottomPincher.setPosition(0);
+            robot.bottomPincher.open();
         }else if (gamepad2.right_trigger >= .5) {
-            robot.bottomPincher.setPosition(1);
+            robot.bottomPincher.close();
         }else {
-            robot.bottomPincher.setPosition(.5);
+            robot.bottomPincher.stop();
         }
 
         //Top Pincher
         if (gamepad2.left_bumper){
-            robot.topPincher.setPosition(0);
+            robot.topPincher.open();
         }else if (gamepad2.left_trigger >= .5) {
-            robot.topPincher.setPosition(1);
+            robot.topPincher.close();
         }else {
-            robot.topPincher.setPosition(.5);
+            robot.topPincher.stop();
         }
 
         //Top Pusher
         if (gamepad2.y){
-            robot.topPusher.setPosition(1);
+            robot.topPusher.out();
         }else if (gamepad2.x){
-            robot.topPusher.setPosition(0);
+            robot.topPusher.in();
         }else {
-            robot.topPusher.setPosition(.5);
+            robot.topPusher.stop();
         }
 
         //Bottom Pusher
         if (gamepad2.b){
-            robot.bottomPusher.setPosition(1);
+            robot.bottomPusher.out();
         }else if (gamepad2.a){
-            robot.bottomPusher.setPosition(0);
+            robot.bottomPusher.in();
         }else {
-            robot.bottomPusher.setPosition(.5);
+            robot.bottomPusher.stop();
         }
 
     }
