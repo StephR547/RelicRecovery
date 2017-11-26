@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.mecanum;
+package org.firstinspires.ftc.teamcode.glyph.wheels;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -18,8 +18,6 @@ public class GlyphPincher  {
     public void close () {
         servo.setPosition(1);
     }
-    public void stop () {
-        servo.setPosition(.5);
-    }
+    public void stop () { servo.setPosition(.5);}
 }
 

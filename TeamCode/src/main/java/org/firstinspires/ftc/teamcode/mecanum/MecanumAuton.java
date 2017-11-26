@@ -10,8 +10,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public abstract class MecanumAuton extends LinearOpMode {
 
     MecanumHardware robot = new MecanumHardware();
+    final int ENCODER_ROTATION = 1495;
+    final double JEWEL_SPEED = .3;
 
     @Override
+
     public void runOpMode() throws InterruptedException {
 
         telemetry.log().add("about to int");
@@ -47,38 +50,38 @@ public abstract class MecanumAuton extends LinearOpMode {
 
     public void glyphPickUp() throws InterruptedException {
 
-        robot.bottomPincher.close();
-        robot.topPincher.close();
+        robot.bottomClamps.close();
+        robot.topClamp.close();
 
         Thread.sleep(1000);
 
-        robot.bottomPincher.stop();
-        robot.topPincher.stop();
+        robot.bottomClamps.stop();
+        robot.topClamp.stop();
 
+    }
 
-        robot.bottomWheels.up();
+    public void rotate(double powerLeft, double powerRight, int distance) {
 
-        robot.topWheels.up();
+        resetEncoders();
 
-        Thread.sleep(4000);
+        robot.frontLeftMotor.setPower(powerLeft);
+        robot.frontRightMotor.setPower(powerRight);
+        robot.backLeftMotor.setPower(powerLeft);
+        robot.backRightMotor.setPower(powerRight);
 
-        robot.bottomWheels.stop();
+        robot.frontLeftMotor.setTargetPosition(distance);
+        robot.frontRightMotor.setTargetPosition(distance);
+        robot.backLeftMotor.setTargetPosition(distance);
+        robot.backRightMotor.setTargetPosition(distance);
 
-        robot.topWheels.stop();
+        waitDrivePosition();
 
+        resetEncoders();
     }
 
     public void drive(int distance) {
 
-        robot.frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        resetEncoders();
 
         robot.frontLeftMotor.setPower(.5);
         robot.frontRightMotor.setPower(.5);
@@ -90,26 +93,34 @@ public abstract class MecanumAuton extends LinearOpMode {
         robot.backLeftMotor.setTargetPosition(distance);
         robot.backRightMotor.setTargetPosition(distance);
 
-        while (opModeIsActive()
-                && (robot.frontLeftMotor.isBusy()
-                || robot.frontRightMotor.isBusy()
-                || robot.backLeftMotor.isBusy()
-                || robot.backRightMotor.isBusy())) {
+        waitDrivePosition();
 
-            telemetry.addData("movement", robot.frontLeftMotor.getCurrentPosition());
-            telemetry.update();
-        }
-        telemetry.addData("Done","done");
-        telemetry.update();
-
-        robot.frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        resetEncoders();
 
     }
+
+
     public void strafeRight() {
 
+        resetEncoders();
+
+        robot.frontLeftMotor.setPower(.5);
+        robot.frontRightMotor.setPower(.5);
+        robot.backLeftMotor.setPower(.5);
+        robot.backRightMotor.setPower(.5);
+
+        robot.frontLeftMotor.setTargetPosition(-ENCODER_ROTATION * 6);
+        robot.frontRightMotor.setTargetPosition(ENCODER_ROTATION * 6);
+        robot.backLeftMotor.setTargetPosition(ENCODER_ROTATION * 6);
+        robot.backRightMotor.setTargetPosition(-ENCODER_ROTATION * 6);
+
+        waitDrivePosition();
+
+        resetEncoders();
+
+    }
+
+    private void resetEncoders() {
         robot.frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -119,17 +130,9 @@ public abstract class MecanumAuton extends LinearOpMode {
         robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
 
-        robot.frontLeftMotor.setPower(.5);
-        robot.frontRightMotor.setPower(.5);
-        robot.backLeftMotor.setPower(.5);
-        robot.backRightMotor.setPower(.5);
-
-        robot.frontLeftMotor.setTargetPosition(-1495 * 6);
-        robot.frontRightMotor.setTargetPosition(1495 * 6);
-        robot.backLeftMotor.setTargetPosition(1495 * 6);
-        robot.backRightMotor.setTargetPosition(-1495 * 6);
-
+    private void waitDrivePosition() {
         while (opModeIsActive()
                 && (robot.frontLeftMotor.isBusy()
                 || robot.frontRightMotor.isBusy()
@@ -139,13 +142,8 @@ public abstract class MecanumAuton extends LinearOpMode {
             telemetry.addData("movement", robot.frontLeftMotor.getCurrentPosition());
             telemetry.update();
         }
-        telemetry.addData("Done","done");
+        telemetry.addData("Done", "done");
         telemetry.update();
-
-        robot.frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
     }
+
 }

@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.BottomGlyphClamps;
+import org.firstinspires.ftc.teamcode.glyph.TopGlyphClamp;
 import org.firstinspires.ftc.teamcode.sensors.IMU;
 
 /**
@@ -17,12 +19,8 @@ public class MecanumHardware {
     public DcMotor backLeftMotor = null;
     public DcMotor backRightMotor = null;
     public DcMotor elevatorMotor = null;
-    public GlyphWheels bottomWheels = null;
-    public GlyphPusher topPusher = null;
-    public GlyphPincher bottomPincher = null;
-    public GlyphWheels topWheels = null;
-    public GlyphPusher bottomPusher = null;
-    public GlyphPincher topPincher = null;
+    public TopGlyphClamp topClamp = null;
+    public BottomGlyphClamps bottomClamps = null;
     public Servo jewelArm = null;
 
     public IMU imu;
@@ -37,7 +35,7 @@ public class MecanumHardware {
 
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-       // imu = new IMU(hwMap.get(BNO055IMU.class, "imu"));
+        // imu = new IMU(hwMap.get(BNO055IMU.class, "imu"));
 
         // Define and Initialize Motors
         frontLeftMotor = hwMap.dcMotor.get("frontLeftMotor");
@@ -67,35 +65,29 @@ public class MecanumHardware {
         initServos();
         initSensors();
     }
+
     public void initServos() {
 
         //Bottom servos Define
-        bottomWheels = new GlyphWheels(hwMap.servo.get("bottomLeftWheel"), hwMap.servo.get("bottomRightWheel"));
-        bottomPusher = new GlyphPusher(hwMap.servo.get("bottomPusher"));
-        bottomPincher = new GlyphPincher(hwMap.servo.get("bottomPincher")) ;
+        bottomClamps = new BottomGlyphClamps(hwMap.servo.get("bottomLeftClamp"),(hwMap.servo.get("bottomRightClamp")));
 
         //Top servos Define
-        topWheels = new GlyphWheels(hwMap.servo.get("topLeftWheel"), hwMap.servo.get("topRightWheel"));
-        topPincher = new GlyphPincher(hwMap.servo.get("topPincher"));
-        topPusher = new GlyphPusher(hwMap.servo.get("topPusher"));
+        topClamp = new TopGlyphClamp(hwMap.servo.get("topClamp"));
 
         //Jewel Servo
         jewelArm = hwMap.servo.get("jewelArm");
 
         //Bottom servos Initialize
-        bottomWheels.stop();
-        bottomPusher.stop();
-        bottomPincher.stop();
+        bottomClamps.stop();
 
         //Top servos Initialize
-        topWheels.stop();
-        topPusher.stop();
-        topPincher.stop();
+        topClamp.stop();
 
         //Jewel servo Initialize
-        jewelArm.setPosition(0);
+        jewelArm.setPosition(.9);
 
     }
+
     public void initSensors() {
 
         //Color sensor initialize

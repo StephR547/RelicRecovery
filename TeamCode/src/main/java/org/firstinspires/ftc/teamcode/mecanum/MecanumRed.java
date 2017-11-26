@@ -12,22 +12,22 @@ public class MecanumRed extends MecanumAuton {
     public void jewelRemoval() {
 
         int red = robot.colorSensor.red();
-        int  blue = robot.colorSensor.blue();
-        if (red > blue){
+        int blue = robot.colorSensor.blue();
+        if (red > blue) {
             telemetry.addData("STATE (R): ", "Red");
-            drive(-1495 /3);
-            drive(1495 /3);
-        }else if (red < blue) {
+            rotate(JEWEL_SPEED, -JEWEL_SPEED, ENCODER_ROTATION / 4);
+            rotate(-JEWEL_SPEED, JEWEL_SPEED, ENCODER_ROTATION / 4);
+        } else if (red < blue) {
             telemetry.addData("STATE (B): ", "Blue");
-            drive(1495 /3);
-            drive(-1495 /3);
+            rotate(-JEWEL_SPEED, JEWEL_SPEED, ENCODER_ROTATION / 4);
+            rotate(JEWEL_SPEED, -JEWEL_SPEED, ENCODER_ROTATION / 4);
         }
     }
 
     @Override
     public void driveToParkingZone() {
 
-        drive(-1495 * 3);
+        drive(-ENCODER_ROTATION * 3);
     }
 
 

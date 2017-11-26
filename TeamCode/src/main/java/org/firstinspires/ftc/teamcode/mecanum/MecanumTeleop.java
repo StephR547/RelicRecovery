@@ -14,11 +14,16 @@ public class MecanumTeleop extends LinearOpMode {
     int elevatorPosition;
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
+        telemetry.log().add("StartingOpMode");
 
         robot.init(hardwareMap);
 
+        telemetry.log().add("RobotInit");
+
         waitForStart();
+
+        telemetry.log().add("RobotStarted");
 
         while (opModeIsActive()) {
 
@@ -61,63 +66,39 @@ public class MecanumTeleop extends LinearOpMode {
 
     public void servosControls() {
 
-        double topWheelSpeed = (-gamepad2.left_stick_y / 2) + 0.5;
-
-        robot.topWheels.setSpeed(topWheelSpeed);
-
-
-        double bottomWheelSpeed = (-gamepad2.right_stick_y / 2) + 0.5;
-
-        robot.bottomWheels.setSpeed(bottomWheelSpeed);
-
-        //Bottom Pincher
-        if (gamepad2.right_bumper){
-            robot.bottomPincher.open();
-        }else if (gamepad2.right_trigger >= .5) {
-            robot.bottomPincher.close();
-        }else {
-            robot.bottomPincher.stop();
+        //Bottom Clamps
+        if (gamepad2.right_bumper) {
+            robot.bottomClamps.open();
+        } else if (gamepad2.right_trigger >= .5) {
+            robot.bottomClamps.close();
+        } else {
+            robot.bottomClamps.stop();
         }
 
-        //Top Pincher
-        if (gamepad2.left_bumper){
-            robot.topPincher.open();
-        }else if (gamepad2.left_trigger >= .5) {
-            robot.topPincher.close();
-        }else {
-            robot.topPincher.stop();
+        //Top Clamps
+        if (gamepad2.left_bumper) {
+            robot.topClamp.open();
+        } else if (gamepad2.left_trigger >= .5) {
+            robot.topClamp.close();
+        } else {
+            robot.topClamp.stop();
         }
 
-        //Top Pusher
-        if (gamepad2.y){
-            robot.topPusher.out();
-        }else if (gamepad2.x){
-            robot.topPusher.in();
-        }else {
-            robot.topPusher.stop();
+        //Jewel Arm
+        if (gamepad1.dpad_up){
+            robot.jewelArm.setPosition(.9);
+        }else if (gamepad1.dpad_down){
+            robot.jewelArm.setPosition(0);
         }
-
-        //Bottom Pusher
-        if (gamepad2.b){
-            robot.bottomPusher.out();
-        }else if (gamepad2.a){
-            robot.bottomPusher.in();
-        }else {
-            robot.bottomPusher.stop();
-        }
-
     }
-    public void elevatorControls(){
 
-        if (gamepad2.dpad_up){
+    public void elevatorControls() {
+
+        if (gamepad2.left_stick_y != 0) {
             robot.elevatorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            robot.elevatorMotor.setPower(1);
+            robot.elevatorMotor.setPower(-gamepad2.left_stick_y);
             elevatorPosition = robot.elevatorMotor.getCurrentPosition();
-        }else if (gamepad2.dpad_down){
-            robot.elevatorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            robot.elevatorMotor.setPower(-1);
-            elevatorPosition = robot.elevatorMotor.getCurrentPosition();
-        }else {
+        } else {
             robot.elevatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.elevatorMotor.setTargetPosition(elevatorPosition);
         }
