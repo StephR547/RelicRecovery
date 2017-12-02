@@ -50,13 +50,10 @@ public abstract class MecanumAuton extends LinearOpMode {
 
     public void glyphPickUp() throws InterruptedException {
 
-        robot.bottomClamps.close();
-        robot.topClamp.close();
+        robot.hook.release();
+        Thread.sleep(500);
+        robot.elevatorStages.stage2Delivery();
 
-        Thread.sleep(1000);
-
-        robot.bottomClamps.stop();
-        robot.topClamp.stop();
 
     }
 

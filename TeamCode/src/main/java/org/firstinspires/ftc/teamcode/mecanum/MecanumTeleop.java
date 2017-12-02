@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class MecanumTeleop extends LinearOpMode {
 
     private MecanumHardware robot = new MecanumHardware();
-    int elevatorPosition;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -53,54 +52,83 @@ public class MecanumTeleop extends LinearOpMode {
                 backRightPower /= max;
             }
 
-            robot.frontLeftMotor.setPower(frontLeftPower);
-            robot.frontRightMotor.setPower(frontRightPower);
-            robot.backLeftMotor.setPower(backLeftPower);
-            robot.backRightMotor.setPower(backRightPower);
+            double slowDown = (gamepad1.right_trigger > .5) ? 0.5 : 1;
+
+            robot.frontLeftMotor.setPower(frontLeftPower * slowDown);
+            robot.frontRightMotor.setPower(frontRightPower * slowDown);
+            robot.backLeftMotor.setPower(backLeftPower * slowDown);
+            robot.backRightMotor.setPower(backRightPower * slowDown);
 
             servosControls();
             elevatorControls();
+
+            telemetry.update();
         }
 
     }
 
     public void servosControls() {
-
-        //Bottom Clamps
+        //Gamepad2 Servo Controls
+        //TopGlyphServo
         if (gamepad2.right_bumper) {
-            robot.bottomClamps.open();
+            robot.topServo.open();
         } else if (gamepad2.right_trigger >= .5) {
-            robot.bottomClamps.close();
+            robot.topServo.close();
         } else {
-            robot.bottomClamps.stop();
+            robot.topServo.stop();
         }
 
-        //Top Clamps
+        //BottomGlyphServo
         if (gamepad2.left_bumper) {
-            robot.topClamp.open();
+            robot.bottomServo.open();
         } else if (gamepad2.left_trigger >= .5) {
-            robot.topClamp.close();
+            robot.bottomServo.close();
         } else {
-            robot.topClamp.stop();
+            robot.bottomServo.stop();
         }
 
+        //Gamepad1 Servo Controls
         //Jewel Arm
-        if (gamepad1.dpad_up){
+        if (gamepad1.dpad_up) {
             robot.jewelArm.setPosition(.9);
-        }else if (gamepad1.dpad_down){
+        } else if (gamepad1.dpad_down) {
             robot.jewelArm.setPosition(0);
+        }
+        // Glyph Hook
+        if (gamepad1.right_bumper) {
+            robot.hook.release();
         }
     }
 
     public void elevatorControls() {
 
-        if (gamepad2.left_stick_y != 0) {
-            robot.elevatorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            robot.elevatorMotor.setPower(-gamepad2.left_stick_y);
-            elevatorPosition = robot.elevatorMotor.getCurrentPosition();
-        } else {
-            robot.elevatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.elevatorMotor.setTargetPosition(elevatorPosition);
+        //Glyph Joystick Control
+        robot.elevatorStages.manuelcontrol(-gamepad2.left_stick_y);
+
+        //Glyph Button Delivery Control
+        if (gamepad2.a) {
+            robot.elevatorStages.stage1Delivery();
         }
+        if (gamepad2.x) {
+            robot.elevatorStages.stage2Delivery();
+        }
+        if (gamepad2.y) {
+            robot.elevatorStages.stage3Delivery();
+        }
+        if (gamepad2.b) {
+            robot.elevatorStages.stage4Delivery();
+        }
+
+        //Glyph D_Pad Pick Up
+        if (gamepad2.dpad_down) {
+            robot.elevatorStages.stage0PickUp();
+        }
+        if (gamepad2.dpad_left) {
+            robot.elevatorStages.stage1PickUp();
+        }
+        if (gamepad2.dpad_up) {
+            robot.elevatorStages.stage2PickUp();
+        }
+        telemetry.addData("Elevator_Height", robot.elevatorStages.motor.getCurrentPosition());
     }
 }
