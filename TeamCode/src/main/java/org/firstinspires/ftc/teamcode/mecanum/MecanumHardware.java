@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.glyph.claw.BottomGlyphServo;
 import org.firstinspires.ftc.teamcode.glyph.ElevatorStages;
 import org.firstinspires.ftc.teamcode.glyph.claw.GlyphHook;
 import org.firstinspires.ftc.teamcode.glyph.claw.TopGlyphServo;
+import org.firstinspires.ftc.teamcode.glyph.vacuum.VacuumLatch;
 import org.firstinspires.ftc.teamcode.glyph.vacuum.VacuumValve;
 import org.firstinspires.ftc.teamcode.sensors.IMU;
 
@@ -23,6 +24,7 @@ public class MecanumHardware {
     public DcMotor backRightMotor = null;
     public ElevatorStages elevatorStages = null;
     public VacuumValve vacuumServo = null;
+    public VacuumLatch vacuumLatch = null;
     public Servo jewelArm = null;
 
     public IMU imu;
@@ -71,14 +73,12 @@ public class MecanumHardware {
 
         //Servos Define
         vacuumServo = new VacuumValve(hwMap.servo.get("vacuumServo"));
-
-        //Jewel Servo
+        vacuumLatch = new VacuumLatch(hwMap.servo.get("vacuumLatch"));
         jewelArm = hwMap.servo.get("jewelArm");
 
         //Servos Initialize
         vacuumServo.release();
-
-        //Jewel servo Initialize
+        vacuumLatch.intialize();
         jewelArm.setPosition(.7);
 
     }
