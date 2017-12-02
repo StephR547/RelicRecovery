@@ -26,9 +26,12 @@ public class MecanumTeleop extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            double forward = -gamepad1.left_stick_y;
-            double strafeRight = gamepad1.left_stick_x;
-            double rotateRight = gamepad1.right_stick_x;
+            double slowDown = (gamepad1.right_trigger > .5) ? 0.2 : 1;
+            double slowDownStrafing = (gamepad1.right_trigger > .5) ? 0.5 : 1;
+
+            double forward = -gamepad1.left_stick_y * slowDown;
+            double strafeRight = gamepad1.left_stick_x * slowDownStrafing;
+            double rotateRight = gamepad1.right_stick_x * slowDown;
 
           /* double heading = robot.imu.getheading();
             double headingInRadians = Math.toRadians(heading);
@@ -52,12 +55,15 @@ public class MecanumTeleop extends LinearOpMode {
                 backRightPower /= max;
             }
 
-            double slowDown = (gamepad1.right_trigger > .5) ? 0.2 : 1;
+            robot.frontLeftMotor.setPower(frontLeftPower);
+            robot.frontRightMotor.setPower(frontRightPower);
+            robot.backLeftMotor.setPower(backLeftPower);
+            robot.backRightMotor.setPower(backRightPower);
 
-            robot.frontLeftMotor.setPower(frontLeftPower * slowDown);
-            robot.frontRightMotor.setPower(frontRightPower * slowDown);
-            robot.backLeftMotor.setPower(backLeftPower * slowDown);
-            robot.backRightMotor.setPower(backRightPower * slowDown);
+            telemetry.addData("frontLeftMotor", robot.frontLeftMotor.getPower());
+            telemetry.addData("frontRightMotor", robot.frontLeftMotor.getPower());
+            telemetry.addData("backLeftMotor", robot.backLeftMotor.getPower());
+            telemetry.addData("backRightMotor", robot.backRightMotor.getPower());
 
             servosControls();
             elevatorControls();
@@ -115,6 +121,6 @@ public class MecanumTeleop extends LinearOpMode {
         if (gamepad2.dpad_up) {
             robot.elevatorStages.stage2PickUp();
         }
-        telemetry.addData("Elevator_Height", robot.elevatorStages.motor.getCurrentPosition());
+        telemetry.addData("ElevatorHeight", robot.elevatorStages.motor.getCurrentPosition());
     }
 }
