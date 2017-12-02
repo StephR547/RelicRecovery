@@ -52,7 +52,7 @@ public class MecanumTeleop extends LinearOpMode {
                 backRightPower /= max;
             }
 
-            double slowDown = (gamepad1.right_trigger > .5) ? 0.5 : 1;
+            double slowDown = (gamepad1.right_trigger > .5) ? 0.2 : 1;
 
             robot.frontLeftMotor.setPower(frontLeftPower * slowDown);
             robot.frontRightMotor.setPower(frontRightPower * slowDown);
@@ -70,34 +70,20 @@ public class MecanumTeleop extends LinearOpMode {
     public void servosControls() {
         //Gamepad2 Servo Controls
         //TopGlyphServo
-        if (gamepad2.right_bumper) {
-            robot.topServo.open();
-        } else if (gamepad2.right_trigger >= .5) {
-            robot.topServo.close();
+        if (gamepad2.right_trigger >= .5) {
+            robot.vacuumServo.close();
         } else {
-            robot.topServo.stop();
-        }
-
-        //BottomGlyphServo
-        if (gamepad2.left_bumper) {
-            robot.bottomServo.open();
-        } else if (gamepad2.left_trigger >= .5) {
-            robot.bottomServo.close();
-        } else {
-            robot.bottomServo.stop();
+            robot.vacuumServo.release();
         }
 
         //Gamepad1 Servo Controls
         //Jewel Arm
         if (gamepad1.dpad_up) {
-            robot.jewelArm.setPosition(.9);
+            robot.jewelArm.setPosition(.7);
         } else if (gamepad1.dpad_down) {
             robot.jewelArm.setPosition(0);
         }
-        // Glyph Hook
-        if (gamepad1.right_bumper) {
-            robot.hook.release();
-        }
+
     }
 
     public void elevatorControls() {

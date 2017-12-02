@@ -5,10 +5,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.glyph.BottomGlyphServo;
+import org.firstinspires.ftc.teamcode.glyph.claw.BottomGlyphServo;
 import org.firstinspires.ftc.teamcode.glyph.ElevatorStages;
-import org.firstinspires.ftc.teamcode.glyph.GlyphHook;
-import org.firstinspires.ftc.teamcode.glyph.TopGlyphServo;
+import org.firstinspires.ftc.teamcode.glyph.claw.GlyphHook;
+import org.firstinspires.ftc.teamcode.glyph.claw.TopGlyphServo;
+import org.firstinspires.ftc.teamcode.glyph.vacuum.VacuumValve;
 import org.firstinspires.ftc.teamcode.sensors.IMU;
 
 /**
@@ -21,9 +22,7 @@ public class MecanumHardware {
     public DcMotor backLeftMotor = null;
     public DcMotor backRightMotor = null;
     public ElevatorStages elevatorStages = null;
-    public TopGlyphServo topServo = null;
-    public BottomGlyphServo bottomServo = null;
-    public GlyphHook hook = null;
+    public VacuumValve vacuumServo = null;
     public Servo jewelArm = null;
 
     public IMU imu;
@@ -45,7 +44,7 @@ public class MecanumHardware {
         frontRightMotor = hwMap.dcMotor.get("frontRightMotor");
         backLeftMotor = hwMap.dcMotor.get("backLeftMotor");
         backRightMotor = hwMap.dcMotor.get("backRightMotor");
-        elevatorStages= new ElevatorStages(hwMap.dcMotor.get("elevatorMotor"));
+        elevatorStages = new ElevatorStages(hwMap.dcMotor.get("elevatorMotor"));
 
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -71,20 +70,16 @@ public class MecanumHardware {
     public void initServos() {
 
         //Servos Define
-        topServo = new TopGlyphServo(hwMap.servo.get("topServo"));
-        bottomServo = new BottomGlyphServo(hwMap.servo.get("bottomServo"));
-        hook = new GlyphHook(hwMap.servo.get("glyphHook"));
+        vacuumServo = new VacuumValve(hwMap.servo.get("vacuumServo"));
 
         //Jewel Servo
         jewelArm = hwMap.servo.get("jewelArm");
 
         //Servos Initialize
-        topServo.stop();
-        bottomServo.stop();
-        hook.intialize();
+        vacuumServo.release();
 
         //Jewel servo Initialize
-        jewelArm.setPosition(.9);
+        jewelArm.setPosition(.7);
 
     }
 

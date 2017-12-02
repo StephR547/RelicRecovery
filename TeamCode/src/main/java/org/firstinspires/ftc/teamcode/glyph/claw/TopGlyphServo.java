@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.glyph;
+package org.firstinspires.ftc.teamcode.glyph.claw;
 
 import com.qualcomm.robotcore.hardware.Servo;
 

@@ -28,9 +28,9 @@ public abstract class MecanumAuton extends LinearOpMode {
         telemetry.log().add("starting");
         telemetry.update();
 
-        glyphPickUp();
+       // glyphPickUp();
 
-        robot.jewelArm.setPosition(.8);
+        robot.jewelArm.setPosition(.7);
         Thread.sleep(3000);
 
         jewelRemoval();
@@ -49,11 +49,7 @@ public abstract class MecanumAuton extends LinearOpMode {
     public abstract void driveToParkingZone();
 
     public void glyphPickUp() throws InterruptedException {
-
-        robot.hook.release();
-        Thread.sleep(500);
-        robot.elevatorStages.stage2Delivery();
-
+        //Intentional left blank, Glyph starts on robot already
 
     }
 

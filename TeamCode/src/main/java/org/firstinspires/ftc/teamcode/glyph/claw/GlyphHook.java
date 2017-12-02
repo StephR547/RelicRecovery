@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.glyph;
+package org.firstinspires.ftc.teamcode.glyph.claw;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -15,7 +15,7 @@ public class GlyphHook {
     }
 
     public void release() {
-        hook.setPosition(0);
+        hook.setPosition(1);
     }
 
     public void intialize() {
