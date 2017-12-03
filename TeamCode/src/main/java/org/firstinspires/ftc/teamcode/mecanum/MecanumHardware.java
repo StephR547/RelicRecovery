@@ -77,9 +77,9 @@ public class MecanumHardware {
         jewelArm = hwMap.servo.get("jewelArm");
 
         //Servos Initialize
-        vacuumServo.release();
+        vacuumServo.stop();
         vacuumLatch.intialize();
-        jewelArm.setPosition(.7);
+        jewelArm.setPosition(.65);
 
     }
 
@@ -87,7 +87,7 @@ public class MecanumHardware {
 
         //Color sensor initialize
         colorSensor = hwMap.colorSensor.get("colorsensor");
-        colorSensor.enableLed(false);
+        colorSensor.enableLed(true);
     }
 }
 

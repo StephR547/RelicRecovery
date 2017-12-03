@@ -28,15 +28,10 @@ public abstract class MecanumAuton extends LinearOpMode {
         telemetry.log().add("starting");
         telemetry.update();
 
-       // glyphPickUp();
-
-        robot.jewelArm.setPosition(.7);
-        Thread.sleep(3000);
+        // glyphPickUp();
 
         jewelRemoval();
 
-        robot.jewelArm.setPosition(0);
-        Thread.sleep(3000);
 
         driveToParkingZone();
         telemetry.update();
@@ -44,49 +39,53 @@ public abstract class MecanumAuton extends LinearOpMode {
     }
 
 
-    public abstract void jewelRemoval();
+    public abstract void jewelRemoval() throws InterruptedException;
 
-    public abstract void driveToParkingZone();
+    public abstract void driveToParkingZone() throws InterruptedException;
 
     public void glyphPickUp() throws InterruptedException {
         //Intentional left blank, Glyph starts on robot already
 
     }
 
-    public void rotate(double powerLeft, double powerRight, int distance) {
+    public void rotateLeft(int distance) throws InterruptedException {
 
         resetEncoders();
 
-        robot.frontLeftMotor.setPower(powerLeft);
-        robot.frontRightMotor.setPower(powerRight);
-        robot.backLeftMotor.setPower(powerLeft);
-        robot.backRightMotor.setPower(powerRight);
+        robot.frontLeftMotor.setPower(.2);
+        robot.frontRightMotor.setPower(.2);
+        robot.backLeftMotor.setPower(.2);
+        robot.backRightMotor.setPower(.2);
 
-        robot.frontLeftMotor.setTargetPosition(distance);
+        robot.frontLeftMotor.setTargetPosition(-distance);
         robot.frontRightMotor.setTargetPosition(distance);
-        robot.backLeftMotor.setTargetPosition(distance);
+        robot.backLeftMotor.setTargetPosition(-distance);
         robot.backRightMotor.setTargetPosition(distance);
 
-        waitDrivePosition();
+        Thread.sleep(2000);
+
+        //waitDrivePosition();
 
         resetEncoders();
     }
 
-    public void drive(int distance) {
+    public void drive(int distance) throws InterruptedException {
 
         resetEncoders();
 
-        robot.frontLeftMotor.setPower(.5);
-        robot.frontRightMotor.setPower(.5);
-        robot.backLeftMotor.setPower(.5);
-        robot.backRightMotor.setPower(.5);
+        robot.frontLeftMotor.setPower(.3);
+        robot.frontRightMotor.setPower(.3);
+        robot.backLeftMotor.setPower(.3);
+        robot.backRightMotor.setPower(.3);
 
         robot.frontLeftMotor.setTargetPosition(distance);
         robot.frontRightMotor.setTargetPosition(distance);
         robot.backLeftMotor.setTargetPosition(distance);
         robot.backRightMotor.setTargetPosition(distance);
 
-        waitDrivePosition();
+        Thread.sleep(4000);
+
+        //waitDrivePosition();
 
         resetEncoders();
 
@@ -118,6 +117,11 @@ public abstract class MecanumAuton extends LinearOpMode {
         robot.frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.frontLeftMotor.setTargetPosition(0);
+        robot.frontRightMotor.setTargetPosition(0);
+        robot.backLeftMotor.setTargetPosition(0);
+        robot.backRightMotor.setTargetPosition(0);
 
         robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);

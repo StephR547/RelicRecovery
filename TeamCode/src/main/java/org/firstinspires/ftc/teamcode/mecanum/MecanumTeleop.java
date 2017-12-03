@@ -78,16 +78,23 @@ public class MecanumTeleop extends LinearOpMode {
         //TopGlyphServo
         if (gamepad2.right_trigger >= .5) {
             robot.vacuumServo.close();
-        } else {
+        } else if(gamepad2.left_trigger >= .5) {
             robot.vacuumServo.release();
+        }else {
+            robot.vacuumServo.stop();
         }
 
         //Gamepad1 Servo Controls
         //Jewel Arm
         if (gamepad1.dpad_up) {
-            robot.jewelArm.setPosition(.7);
+            robot.jewelArm.setPosition(.66);
         } else if (gamepad1.dpad_down) {
-            robot.jewelArm.setPosition(0);
+            robot.jewelArm.setPosition(.059);
+        }
+        if (gamepad1.a){
+            robot.vacuumLatch.release();
+        } else {
+            robot.vacuumLatch.intialize();
         }
 
     }
@@ -107,9 +114,9 @@ public class MecanumTeleop extends LinearOpMode {
         if (gamepad2.y) {
             robot.elevatorStages.stage3Delivery();
         }
-        if (gamepad2.b) {
+       /* if (gamepad2.b) {
             robot.elevatorStages.stage4Delivery();
-        }
+        } */
 
         //Glyph D_Pad Pick Up
         if (gamepad2.dpad_down) {
