@@ -3,15 +3,20 @@ package org.firstinspires.ftc.teamcode.mecanum;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentifier;
+
 /**
  * Created by StephanieRamirez on 11/11/17.
  */
 
 public abstract class MecanumAuton extends LinearOpMode {
 
-    MecanumHardware robot = new MecanumHardware();
-    final int ENCODER_ROTATION = 1495;
-    final double JEWEL_SPEED = .3;
+    protected MecanumHardware robot = new MecanumHardware();
+    protected VuMarkIdentifier vumark = new VuMarkIdentifier(hardwareMap);
+    protected final int ENCODER_ROTATION = 1495;
+    protected final double JEWEL_SPEED = .3;
+    protected RelicRecoveryVuMark picture;
 
     @Override
 
@@ -25,6 +30,8 @@ public abstract class MecanumAuton extends LinearOpMode {
 
         waitForStart();
 
+        picture = vumark.getVuMark();
+
         telemetry.log().add("starting");
         telemetry.update();
 
@@ -35,6 +42,10 @@ public abstract class MecanumAuton extends LinearOpMode {
 
         driveToParkingZone();
 
+        glyphAllignment(picture);
+
+        glyphDelivery();
+
         telemetry.update();
 
     }
@@ -42,35 +53,31 @@ public abstract class MecanumAuton extends LinearOpMode {
 
     public abstract void jewelRemoval() throws InterruptedException;
 
+    public abstract void glyphAllignment(RelicRecoveryVuMark vuMark) throws InterruptedException;
+
+    public void glyphDelivery() throws InterruptedException {
+        robot.elevatorStages.stage1Delivery();
+        Thread.sleep(2000);
+        drive(-ENCODER_ROTATION / 4);
+        robot.vacuumLatch.release();
+        Thread.sleep(300);
+        drive(ENCODER_ROTATION - (ENCODER_ROTATION / 3));
+        robot.vacuumServo.close();
+        Thread.sleep(500);
+        drive(-ENCODER_ROTATION / 3);
+    }
+
     public abstract void driveToParkingZone() throws InterruptedException;
 
     public void glyphPickUp() throws InterruptedException {
         //Intentional left blank, Glyph starts on robot already
 
     }
-    public void rotateLeftLong(int distance) throws InterruptedException {
-
-        resetEncoders();
-
-        robot.frontLeftMotor.setPower(.2);
-        robot.frontRightMotor.setPower(.2);
-        robot.backLeftMotor.setPower(.2);
-        robot.backRightMotor.setPower(.2);
-
-        robot.frontLeftMotor.setTargetPosition(-distance);
-        robot.frontRightMotor.setTargetPosition(distance);
-        robot.backLeftMotor.setTargetPosition(-distance);
-        robot.backRightMotor.setTargetPosition(distance);
-
-        Thread.sleep(4000);
-
-        //waitDrivePosition();
-
-        resetEncoders();
+    public void rotateLeft (int distance) throws InterruptedException{
+        rotateLeft(distance, 2);
     }
 
-
-    public void rotateLeft(int distance) throws InterruptedException {
+    public void rotateLeft(int distance, int seconds) throws InterruptedException {
 
         resetEncoders();
 
@@ -84,7 +91,7 @@ public abstract class MecanumAuton extends LinearOpMode {
         robot.backLeftMotor.setTargetPosition(-distance);
         robot.backRightMotor.setTargetPosition(distance);
 
-        Thread.sleep(2000);
+        Thread.sleep(seconds * 1000);
 
         //waitDrivePosition();
 

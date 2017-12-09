@@ -1,6 +1,9 @@
-package org.firstinspires.ftc.teamcode.mecanum;
+package org.firstinspires.ftc.teamcode.mecanum.redAuton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.teamcode.mecanum.MecanumAuton;
 
 /**
  * Created by StephanieRamirez on 10/14/17.
@@ -29,6 +32,11 @@ public class MecanumRed extends MecanumAuton {
             Thread.sleep(3000);
             rotateLeft(-ENCODER_ROTATION / 4);
         }
+    }
+
+    @Override
+    public void glyphAllignment(RelicRecoveryVuMark vuMark) throws InterruptedException {
+
     }
 
     @Override

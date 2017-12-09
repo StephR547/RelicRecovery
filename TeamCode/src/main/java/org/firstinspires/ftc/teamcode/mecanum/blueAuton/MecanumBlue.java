@@ -1,18 +1,21 @@
-package org.firstinspires.ftc.teamcode.mecanum;
+package org.firstinspires.ftc.teamcode.mecanum.blueAuton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.teamcode.mecanum.MecanumAuton;
+
 /**
- * Created by StephanieRamirez on 12/2/17.
+ * Created by StephanieRamirez on 11/11/17.
  */
-@Autonomous(name = "MecanumBlueClose")
-public class MecanumBlueClose extends MecanumAuton {
+@Autonomous(name = "MecanumBlue")
+public class MecanumBlue extends MecanumAuton {
 
     @Override
     public void jewelRemoval() throws InterruptedException {
 
         robot.jewelArm.setPosition(.004);
-        Thread.sleep(2000);
+        Thread.sleep(3000);
 
         int red = robot.colorSensor.red();
         int blue = robot.colorSensor.blue();
@@ -20,32 +23,25 @@ public class MecanumBlueClose extends MecanumAuton {
             telemetry.log().add("STATE (B): ", "Blue");
             rotateLeft(-ENCODER_ROTATION / 4);
             robot.jewelArm.setPosition(.66);
-            Thread.sleep(1000);
+            Thread.sleep(3000);
             rotateLeft(ENCODER_ROTATION / 4);
         } else if (red >= blue) {
             telemetry.log().add("STATE (R): ", "Red");
             rotateLeft(ENCODER_ROTATION / 4);
             robot.jewelArm.setPosition(.66);
-            Thread.sleep(1000);
+            Thread.sleep(3000);
             rotateLeft(-ENCODER_ROTATION / 4);
         }
     }
 
     @Override
-    public void driveToParkingZone() throws InterruptedException {
-
-        drive(ENCODER_ROTATION * 2);
-        strafeRight(-ENCODER_ROTATION + 800);
-        robot.elevatorStages.stage1Delivery();
-        Thread.sleep(2000);
-        drive(-ENCODER_ROTATION / 4);
-        robot.vacuumLatch.release();
-        Thread.sleep(300);
-        drive(ENCODER_ROTATION - (ENCODER_ROTATION / 3));
-        robot.vacuumServo.close();
-        Thread.sleep(500);
-        drive(-ENCODER_ROTATION / 3);
+    public void glyphAllignment(RelicRecoveryVuMark vuMark) throws InterruptedException {
 
     }
-}
 
+    @Override
+    public void driveToParkingZone() throws InterruptedException {
+
+        drive(ENCODER_ROTATION * 3);
+    }
+}
