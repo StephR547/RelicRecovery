@@ -34,6 +34,7 @@ public abstract class MecanumAuton extends LinearOpMode {
 
 
         driveToParkingZone();
+
         telemetry.update();
 
     }
@@ -47,6 +48,27 @@ public abstract class MecanumAuton extends LinearOpMode {
         //Intentional left blank, Glyph starts on robot already
 
     }
+    public void rotateLeftLong(int distance) throws InterruptedException {
+
+        resetEncoders();
+
+        robot.frontLeftMotor.setPower(.2);
+        robot.frontRightMotor.setPower(.2);
+        robot.backLeftMotor.setPower(.2);
+        robot.backRightMotor.setPower(.2);
+
+        robot.frontLeftMotor.setTargetPosition(-distance);
+        robot.frontRightMotor.setTargetPosition(distance);
+        robot.backLeftMotor.setTargetPosition(-distance);
+        robot.backRightMotor.setTargetPosition(distance);
+
+        Thread.sleep(4000);
+
+        //waitDrivePosition();
+
+        resetEncoders();
+    }
+
 
     public void rotateLeft(int distance) throws InterruptedException {
 
@@ -83,7 +105,7 @@ public abstract class MecanumAuton extends LinearOpMode {
         robot.backLeftMotor.setTargetPosition(distance);
         robot.backRightMotor.setTargetPosition(distance);
 
-        Thread.sleep(4000);
+        Thread.sleep(3000);
 
         //waitDrivePosition();
 
@@ -92,7 +114,7 @@ public abstract class MecanumAuton extends LinearOpMode {
     }
 
 
-    public void strafeRight() {
+    public void strafeRight(int distance) throws InterruptedException {
 
         resetEncoders();
 
@@ -101,12 +123,14 @@ public abstract class MecanumAuton extends LinearOpMode {
         robot.backLeftMotor.setPower(.5);
         robot.backRightMotor.setPower(.5);
 
-        robot.frontLeftMotor.setTargetPosition(-ENCODER_ROTATION * 6);
-        robot.frontRightMotor.setTargetPosition(ENCODER_ROTATION * 6);
-        robot.backLeftMotor.setTargetPosition(ENCODER_ROTATION * 6);
-        robot.backRightMotor.setTargetPosition(-ENCODER_ROTATION * 6);
+        robot.frontLeftMotor.setTargetPosition(-distance);
+        robot.frontRightMotor.setTargetPosition(distance);
+        robot.backLeftMotor.setTargetPosition(distance);
+        robot.backRightMotor.setTargetPosition(-distance);
 
-        waitDrivePosition();
+        Thread.sleep(2000);
+
+        //waitDrivePosition();
 
         resetEncoders();
 

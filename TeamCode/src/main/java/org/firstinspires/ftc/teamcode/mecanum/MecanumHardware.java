@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.glyph.claw.GlyphHook;
 import org.firstinspires.ftc.teamcode.glyph.claw.TopGlyphServo;
 import org.firstinspires.ftc.teamcode.glyph.vacuum.VacuumLatch;
 import org.firstinspires.ftc.teamcode.glyph.vacuum.VacuumValve;
+import org.firstinspires.ftc.teamcode.relic.RelicClamp;
 import org.firstinspires.ftc.teamcode.sensors.IMU;
 
 /**
@@ -26,6 +27,7 @@ public class MecanumHardware {
     public VacuumValve vacuumServo = null;
     public VacuumLatch vacuumLatch = null;
     public Servo jewelArm = null;
+    public RelicClamp relicClamp = null;
 
     public IMU imu;
     public ColorSensor colorSensor;
@@ -75,11 +77,13 @@ public class MecanumHardware {
         vacuumServo = new VacuumValve(hwMap.servo.get("vacuumServo"));
         vacuumLatch = new VacuumLatch(hwMap.servo.get("vacuumLatch"));
         jewelArm = hwMap.servo.get("jewelArm");
+        relicClamp = new RelicClamp(hwMap.servo.get("relicClamp"));
 
         //Servos Initialize
         vacuumServo.stop();
         vacuumLatch.intialize();
         jewelArm.setPosition(.65);
+        relicClamp.initilize();
 
     }
 

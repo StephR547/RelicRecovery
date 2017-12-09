@@ -1,15 +1,15 @@
-package org.firstinspires.ftc.teamcode.glyph.vacuum;
+package org.firstinspires.ftc.teamcode.relic;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
- * Created by StephanieRamirez on 12/2/17.
+ * Created by StephanieRamirez on 12/7/17.
  */
 
-public class VacuumValve {
+public class RelicClamp {
     public Servo servo;
 
-    public VacuumValve (Servo servo){
+    public RelicClamp (Servo servo){
         this.servo = servo;
     }
     public void release (){
@@ -18,7 +18,7 @@ public class VacuumValve {
     public void close (){
         servo.setPosition(.7);
     }
-    public void stop (){
+    public void initilize(){
         servo.setPosition(.5);
     }
 }

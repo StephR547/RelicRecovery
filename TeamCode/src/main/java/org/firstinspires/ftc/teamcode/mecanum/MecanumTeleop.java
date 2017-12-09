@@ -97,6 +97,14 @@ public class MecanumTeleop extends LinearOpMode {
             robot.vacuumLatch.intialize();
         }
 
+        if (gamepad1.right_bumper) {
+            robot.relicClamp.close();
+        }else if (gamepad1.left_bumper){
+            robot.relicClamp.release();
+        }else {
+            robot.relicClamp.initilize();
+        }
+
     }
 
     public void elevatorControls() {
