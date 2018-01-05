@@ -1,17 +1,17 @@
 package org.firstinspires.ftc.teamcode.mecanum;
 
+import android.content.Context;
+
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.glyph.claw.BottomGlyphServo;
 import org.firstinspires.ftc.teamcode.glyph.ElevatorStages;
-import org.firstinspires.ftc.teamcode.glyph.claw.GlyphHook;
-import org.firstinspires.ftc.teamcode.glyph.claw.TopGlyphServo;
 import org.firstinspires.ftc.teamcode.glyph.vacuum.VacuumLatch;
 import org.firstinspires.ftc.teamcode.glyph.vacuum.VacuumValve;
 import org.firstinspires.ftc.teamcode.relic.RelicClamp;
+import org.firstinspires.ftc.teamcode.relic.RelicPivot;
 import org.firstinspires.ftc.teamcode.sensors.IMU;
 
 /**
@@ -23,11 +23,17 @@ public class MecanumHardware {
     public DcMotor frontRightMotor = null;
     public DcMotor backLeftMotor = null;
     public DcMotor backRightMotor = null;
+    public DcMotor relicElevator = null;
     public ElevatorStages elevatorStages = null;
     public VacuumValve vacuumServo = null;
     public VacuumLatch vacuumLatch = null;
     public Servo jewelArm = null;
     public RelicClamp relicClamp = null;
+    public RelicPivot relicPivot = null;
+
+    public Context appContext;
+
+
 
     public IMU imu;
     public ColorSensor colorSensor;
@@ -49,6 +55,7 @@ public class MecanumHardware {
         backLeftMotor = hwMap.dcMotor.get("backLeftMotor");
         backRightMotor = hwMap.dcMotor.get("backRightMotor");
         elevatorStages = new ElevatorStages(hwMap.dcMotor.get("elevatorMotor"));
+        relicElevator = hwMap.dcMotor.get("relicElevator");
 
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -58,7 +65,9 @@ public class MecanumHardware {
         frontRightMotor.setPower(0);
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
+        relicElevator.setPower(0);
         elevatorStages.initialize();
+
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -66,6 +75,7 @@ public class MecanumHardware {
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        relicElevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         initServos();
         initSensors();
@@ -78,12 +88,15 @@ public class MecanumHardware {
         vacuumLatch = new VacuumLatch(hwMap.servo.get("vacuumLatch"));
         jewelArm = hwMap.servo.get("jewelArm");
         relicClamp = new RelicClamp(hwMap.servo.get("relicClamp"));
+        relicPivot = new RelicPivot(hwMap.servo.get("relicPivotLeft"), hwMap.servo.get("relicPivotRight"));
+
 
         //Servos Initialize
         vacuumServo.stop();
         vacuumLatch.intialize();
-        jewelArm.setPosition(.65);
-        relicClamp.initilize();
+        jewelArm.setPosition(.15);
+        relicClamp.close();
+        relicPivot.initilize();
 
     }
 

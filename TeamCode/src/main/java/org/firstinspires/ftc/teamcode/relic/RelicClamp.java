@@ -9,16 +9,20 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class RelicClamp {
     public Servo servo;
 
-    public RelicClamp (Servo servo){
+    public RelicClamp(Servo servo) {
         this.servo = servo;
+
     }
-    public void release (){
-        servo.setPosition(.3);
+
+    public void release() {
+        servo.setPosition(.2);
     }
-    public void close (){
-        servo.setPosition(.7);
+
+    public void close() {
+        servo.setPosition(1);
     }
-    public void initilize(){
-        servo.setPosition(.5);
+
+    public void initilize() {
+        servo.setPosition(0);
     }
 }

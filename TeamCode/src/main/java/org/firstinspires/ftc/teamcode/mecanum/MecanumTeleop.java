@@ -75,35 +75,45 @@ public class MecanumTeleop extends LinearOpMode {
 
     public void servosControls() {
         //Gamepad2 Servo Controls
-        //TopGlyphServo
+        //Vacuum Controls
         if (gamepad2.right_trigger >= .5) {
             robot.vacuumServo.close();
-        } else if(gamepad2.left_trigger >= .5) {
+        } else if (gamepad2.left_trigger >= .5) {
             robot.vacuumServo.release();
-        }else {
+        } else {
             robot.vacuumServo.stop();
+        }
+        //Relic Controls
+        if (gamepad2.left_bumper) {
+            robot.relicClamp.release();
+        } else {
+            robot.relicClamp.close();
+        }
+
+        if (gamepad2.y) {
+            robot.relicPivot.up();
+
+        } else if (gamepad2.a) {
+            robot.relicPivot.down();
+
+        } else {
+            robot.relicPivot.initilize();
         }
 
         //Gamepad1 Servo Controls
         //Jewel Arm
         if (gamepad1.dpad_up) {
-            robot.jewelArm.setPosition(.66);
+            robot.jewelArm.setPosition(.15);
         } else if (gamepad1.dpad_down) {
-            robot.jewelArm.setPosition(.059);
+            robot.jewelArm.setPosition(.66);
         }
-        if (gamepad1.a){
+        //VacuumLatch
+        if (gamepad1.a) {
             robot.vacuumLatch.release();
         } else {
             robot.vacuumLatch.intialize();
         }
 
-        if (gamepad1.right_bumper) {
-            robot.relicClamp.close();
-        }else if (gamepad1.left_bumper){
-            robot.relicClamp.release();
-        }else {
-            robot.relicClamp.initilize();
-        }
 
     }
 
@@ -112,30 +122,10 @@ public class MecanumTeleop extends LinearOpMode {
         //Glyph Joystick Control
         robot.elevatorStages.manuelcontrol(-gamepad2.left_stick_y);
 
-        //Glyph Button Delivery Control
-        if (gamepad2.a) {
-            robot.elevatorStages.stage1Delivery();
-        }
-        if (gamepad2.x) {
-            robot.elevatorStages.stage2Delivery();
-        }
-        if (gamepad2.y) {
-            robot.elevatorStages.stage3Delivery();
-        }
-       /* if (gamepad2.b) {
-            robot.elevatorStages.stage4Delivery();
-        } */
+        //Relic Control
+        robot.relicElevator.setPower(gamepad2.right_stick_y);
 
-        //Glyph D_Pad Pick Up
-        if (gamepad2.dpad_down) {
-            robot.elevatorStages.stage0PickUp();
-        }
-        if (gamepad2.dpad_left) {
-            robot.elevatorStages.stage1PickUp();
-        }
-        if (gamepad2.dpad_up) {
-            robot.elevatorStages.stage2PickUp();
-        }
-        telemetry.addData("ElevatorHeight", robot.elevatorStages.motor.getCurrentPosition());
     }
+
+
 }

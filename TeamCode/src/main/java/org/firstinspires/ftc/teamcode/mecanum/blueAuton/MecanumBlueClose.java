@@ -14,17 +14,19 @@ public class MecanumBlueClose extends MecanumBlue {
     @Override
     public void driveToParkingZone() throws InterruptedException {
         drive(ENCODER_ROTATION * 2);
+        strafeRight(-ENCODER_ROTATION + 800);
+
     }
 
     @Override
     public void glyphAllignment(RelicRecoveryVuMark vuMark) throws InterruptedException {
-        if (vuMark == RelicRecoveryVuMark.LEFT || vuMark == RelicRecoveryVuMark.UNKNOWN){
+        if (vuMark == RelicRecoveryVuMark.LEFT || vuMark == RelicRecoveryVuMark.UNKNOWN) {
             strafeRight(-ENCODER_ROTATION + 800);
 
-        }else if (vuMark == RelicRecoveryVuMark.CENTER){
+        } else if (vuMark == RelicRecoveryVuMark.CENTER) {
             strafeRight(-ENCODER_ROTATION + 2000);
 
-        }else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+        } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
             strafeRight(-ENCODER_ROTATION * 3);
 
         }

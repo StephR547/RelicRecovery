@@ -14,23 +14,23 @@ public class MecanumBlue extends MecanumAuton {
     @Override
     public void jewelRemoval() throws InterruptedException {
 
-        robot.jewelArm.setPosition(.004);
+        robot.jewelArm.setPosition(.80);
         Thread.sleep(3000);
 
         int red = robot.colorSensor.red();
         int blue = robot.colorSensor.blue();
         if (red < blue) {
             telemetry.log().add("STATE (B): ", "Blue");
-            rotateLeft(-ENCODER_ROTATION / 4);
-            robot.jewelArm.setPosition(.66);
-            Thread.sleep(3000);
             rotateLeft(ENCODER_ROTATION / 4);
+            robot.jewelArm.setPosition(.004);
+            Thread.sleep(3000);
+            rotateLeft(-ENCODER_ROTATION / 4);
         } else if (red >= blue) {
             telemetry.log().add("STATE (R): ", "Red");
-            rotateLeft(ENCODER_ROTATION / 4);
-            robot.jewelArm.setPosition(.66);
-            Thread.sleep(3000);
             rotateLeft(-ENCODER_ROTATION / 4);
+            robot.jewelArm.setPosition(.004);
+            Thread.sleep(3000);
+            rotateLeft(ENCODER_ROTATION / 4);
         }
     }
 

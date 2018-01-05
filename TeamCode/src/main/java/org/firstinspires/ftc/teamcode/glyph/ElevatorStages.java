@@ -76,7 +76,7 @@ public class ElevatorStages {
 
     public void manuelcontrol(double power) {
 
-        if (Math.abs(power) >= .1) {
+        if (Math.abs(power) >= .3) {
             usingElevatorJoystick = true;
             motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             motor.setPower(power);

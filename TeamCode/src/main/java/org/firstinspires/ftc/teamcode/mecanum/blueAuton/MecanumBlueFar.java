@@ -13,6 +13,7 @@ public class MecanumBlueFar extends MecanumBlue {
     @Override
     public void driveToParkingZone() throws InterruptedException {
         drive(ENCODER_ROTATION * 2);
+        rotateLeft(ENCODER_ROTATION * 4, 4);
     }
 
     @Override
