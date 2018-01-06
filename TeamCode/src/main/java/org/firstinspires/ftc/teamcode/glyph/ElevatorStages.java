@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class ElevatorStages {
     public DcMotor motor;
 
-    final int STAGE_1_DELIVERY = 3000;
+    final int STAGE_1_DELIVERY = 1500;
     final int STAGE_2_DELIVERY = 10500;
     final int STAGE_3_DELIVERY = 15000;
     final int STAGE_4_DELIVERY = 19500;
