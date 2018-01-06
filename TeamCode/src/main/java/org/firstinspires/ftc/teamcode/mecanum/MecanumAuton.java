@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentifier;
 import com.vuforia.Vuforia;
@@ -15,7 +16,7 @@ import com.vuforia.Vuforia;
 public abstract class MecanumAuton extends LinearOpMode {
 
     protected MecanumHardware robot = new MecanumHardware();
-    protected VuMarkIdentifier vumark = new VuMarkIdentifier(hardwareMap); //we want this to be robot becasue this is the hardware we need
+    protected VuMarkIdentifier vumark = null;
     protected final int ENCODER_ROTATION = 1495;
     protected final double JEWEL_SPEED = .3;
     protected final int Encoder_Slack = 100;
@@ -28,6 +29,9 @@ public abstract class MecanumAuton extends LinearOpMode {
         telemetry.log().add("about to int");
         telemetry.update();
         robot.init(hardwareMap);
+
+        vumark = new VuMarkIdentifier(hardwareMap);
+
         telemetry.log().add("waiting for start");
         telemetry.update();
 
@@ -35,6 +39,9 @@ public abstract class MecanumAuton extends LinearOpMode {
 
 
         picture = vumark.getVuMark();
+
+        telemetry.log().add(picture.toString());
+        telemetry.update();
 
         telemetry.log().add("starting");
         telemetry.update();
@@ -44,9 +51,9 @@ public abstract class MecanumAuton extends LinearOpMode {
         jewelRemoval();
 
 
-        driveToParkingZone();
+        //driveToParkingZone();
 
-        glyphAllignment(picture);
+        glyphAllignment(picture, telemetry);
 
         glyphDelivery();
 
@@ -57,7 +64,7 @@ public abstract class MecanumAuton extends LinearOpMode {
 
     public abstract void jewelRemoval() throws InterruptedException;
 
-    public abstract void glyphAllignment(RelicRecoveryVuMark vuMark) throws InterruptedException;
+    public abstract void glyphAllignment(RelicRecoveryVuMark vuMark, Telemetry telemetry) throws InterruptedException;
 
     public void glyphDelivery() throws InterruptedException {
         robot.elevatorStages.stage1Delivery();

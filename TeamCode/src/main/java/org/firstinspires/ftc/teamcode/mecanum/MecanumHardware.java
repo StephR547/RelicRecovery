@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.glyph.ElevatorStages;
 import org.firstinspires.ftc.teamcode.glyph.vacuum.VacuumLatch;
 import org.firstinspires.ftc.teamcode.glyph.vacuum.VacuumValve;
@@ -31,9 +32,6 @@ public class MecanumHardware {
     public RelicClamp relicClamp = null;
     public RelicPivot relicPivot = null;
 
-    public Context appContext;
-
-
 
     public IMU imu;
     public ColorSensor colorSensor;
@@ -47,6 +45,8 @@ public class MecanumHardware {
 
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
+
+
         // imu = new IMU(hwMap.get(BNO055IMU.class, "imu"));
 
         // Define and Initialize Motors

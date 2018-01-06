@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.mecanum.redAuton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.teamcode.mecanum.MecanumAuton;
 
@@ -35,7 +36,7 @@ public class MecanumRed extends MecanumAuton {
     }
 
     @Override
-    public void glyphAllignment(RelicRecoveryVuMark vuMark) throws InterruptedException {
+    public void glyphAllignment(RelicRecoveryVuMark vuMark, Telemetry telemetry) throws InterruptedException {
 
     }
 
@@ -43,7 +44,7 @@ public class MecanumRed extends MecanumAuton {
     public void driveToParkingZone() throws InterruptedException {
 
         drive(-ENCODER_ROTATION * 3);
-        //rotateLeft(2000);
+        rotateLeft(2000);
     }
 
 
