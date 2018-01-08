@@ -51,7 +51,7 @@ public abstract class MecanumAuton extends LinearOpMode {
         jewelRemoval();
 
 
-        //driveToParkingZone();
+        driveToParkingZone();
 
         glyphAllignment(picture, telemetry);
 
@@ -68,15 +68,18 @@ public abstract class MecanumAuton extends LinearOpMode {
 
     public void glyphDelivery() throws InterruptedException {
         robot.elevatorStages.stage1Delivery();
-        Thread.sleep(2000);
+        Thread.sleep(2200);
         robot.elevatorStages.motor.setPower(.10);
-        drive(-ENCODER_ROTATION / 4);
+        drive(-300);
         robot.vacuumLatch.release();
-        Thread.sleep(300);
-        drive(ENCODER_ROTATION - (ENCODER_ROTATION / 3));
+        Thread.sleep(1500);
+        robot.vacuumLatch.intialize();
+        drive(ENCODER_ROTATION - (ENCODER_ROTATION / 2));
         robot.vacuumServo.close();
         Thread.sleep(500);
-        drive(-ENCODER_ROTATION / 3 * 2);
+        robot.elevatorStages.stage2Delivery();
+        Thread.sleep(500);
+        drive(-ENCODER_ROTATION / 2);
     }
 
     public abstract void driveToParkingZone() throws InterruptedException;
@@ -87,7 +90,7 @@ public abstract class MecanumAuton extends LinearOpMode {
     }
 
     public void rotateLeft(int distance) throws InterruptedException {
-        rotateLeft(distance, 2);
+        rotateLeft(distance, 1);
     }
 
     public void rotateLeft(int distance, int seconds) throws InterruptedException {

@@ -31,7 +31,7 @@ public class MecanumTeleop extends LinearOpMode {
 
             double forward = -gamepad1.left_stick_y * slowDown;
             double strafeRight = gamepad1.left_stick_x * slowDownStrafing;
-            double rotateRight = gamepad1.right_stick_x * slowDown;
+            double rotateRight = gamepad1.right_stick_x * slowDownStrafing;
 
           /* double heading = robot.imu.getheading();
             double headingInRadians = Math.toRadians(heading);
@@ -124,6 +124,8 @@ public class MecanumTeleop extends LinearOpMode {
 
         //Relic Control
         robot.relicElevator.setPower(gamepad2.right_stick_y);
+
+        telemetry.addData("Encoderlift", robot.elevatorStages.motor.getCurrentPosition());
 
     }
 
