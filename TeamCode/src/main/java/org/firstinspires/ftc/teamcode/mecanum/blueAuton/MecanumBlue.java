@@ -18,20 +18,42 @@ public class MecanumBlue extends MecanumAuton {
         robot.jewelArm.setPosition(.90);
         Thread.sleep(3000);
 
-        int red = robot.colorSensorTop.red();
-        int blue = robot.colorSensorTop.blue();
-        if (red < blue) {
+        int redT = robot.colorSensorTop.red();
+        int blueT = robot.colorSensorTop.blue();
+
+        int redB = robot.colorSensorBottom.red();
+        int blueB = robot.colorSensorBottom.blue();
+
+        if (redT < blueT) {
             telemetry.log().add("STATE (B): ", "Blue");
             rotateLeft(ENCODER_ROTATION / 4);
             robot.jewelArm.setPosition(.004);
             Thread.sleep(3000);
             rotateLeft(-ENCODER_ROTATION / 4);
-        } else if (red >= blue) {
+        } else if (redT > blueT) {
             telemetry.log().add("STATE (R): ", "Red");
             rotateLeft(-ENCODER_ROTATION / 4);
             robot.jewelArm.setPosition(.004);
             Thread.sleep(3000);
             rotateLeft(ENCODER_ROTATION / 4);
+        }
+        else {
+            if (redB < blueB) {
+                telemetry.log().add("STATE (B): ", "Blue");
+                rotateLeft(ENCODER_ROTATION / 4);
+                robot.jewelArm.setPosition(.004);
+                Thread.sleep(3000);
+                rotateLeft(-ENCODER_ROTATION / 4);
+            } else if (redB > blueB) {
+                telemetry.log().add("STATE (R): ", "Red");
+                rotateLeft(-ENCODER_ROTATION / 4);
+                robot.jewelArm.setPosition(.004);
+                Thread.sleep(3000);
+                rotateLeft(ENCODER_ROTATION / 4);
+            } else {
+                telemetry.log().add("Unknown", "Unknown");
+                robot.jewelArm.setPosition(.004);
+            }
         }
     }
 
