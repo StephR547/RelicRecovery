@@ -1,13 +1,12 @@
 package org.firstinspires.ftc.teamcode.mecanum;
 
-import android.content.Context;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.glyph.ElevatorStages;
 import org.firstinspires.ftc.teamcode.glyph.vacuum.VacuumLatch;
 import org.firstinspires.ftc.teamcode.glyph.vacuum.VacuumValve;
@@ -34,7 +33,8 @@ public class MecanumHardware {
 
 
     public IMU imu;
-    public ColorSensor colorSensor;
+    public ColorSensor colorSensorTop;
+    public ColorSensor colorSensorBottom;
 
 
     private HardwareMap hwMap = null;
@@ -94,7 +94,7 @@ public class MecanumHardware {
         //Servos Initialize
         vacuumServo.stop();
         vacuumLatch.intialize();
-        jewelArm.setPosition(.15);
+        jewelArm.setPosition(.004);
         relicClamp.close();
         relicPivot.initilize();
 
@@ -103,8 +103,13 @@ public class MecanumHardware {
     public void initSensors() {
 
         //Color sensor initialize
-        colorSensor = hwMap.colorSensor.get("colorsensor");
-        colorSensor.enableLed(true);
+        colorSensorTop = hwMap.colorSensor.get("colorSensorTop");
+        colorSensorTop.setI2cAddress(I2cAddr.create8bit(0x3c));
+        colorSensorTop.enableLed(true);
+
+        colorSensorBottom = hwMap.colorSensor.get("colorSensorBottom");
+        colorSensorBottom.setI2cAddress(I2cAddr.create8bit(0x3a));
+        colorSensorBottom.enableLed(true);
     }
 }
 

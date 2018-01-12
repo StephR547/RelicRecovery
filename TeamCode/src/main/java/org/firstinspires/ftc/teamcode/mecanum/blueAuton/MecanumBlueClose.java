@@ -25,7 +25,7 @@ public class MecanumBlueClose extends MecanumBlue {
             telemetry.log().add("Left", RelicRecoveryVuMark.LEFT);
 
         } else if (vuMark == RelicRecoveryVuMark.CENTER) {
-            strafeRight(-ENCODER_ROT00);
+            strafeRight(-ENCODER_ROTATION - 500);
 
             telemetry.log().add("Center", RelicRecoveryVuMark.CENTER);
 
@@ -36,6 +36,8 @@ public class MecanumBlueClose extends MecanumBlue {
 
         }
         telemetry.update();
+
+        glyphDeliveryBlue();
 
     }
 

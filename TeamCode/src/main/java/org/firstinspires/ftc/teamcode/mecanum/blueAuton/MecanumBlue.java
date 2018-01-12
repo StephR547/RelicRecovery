@@ -18,8 +18,8 @@ public class MecanumBlue extends MecanumAuton {
         robot.jewelArm.setPosition(.90);
         Thread.sleep(3000);
 
-        int red = robot.colorSensor.red();
-        int blue = robot.colorSensor.blue();
+        int red = robot.colorSensorTop.red();
+        int blue = robot.colorSensorTop.blue();
         if (red < blue) {
             telemetry.log().add("STATE (B): ", "Blue");
             rotateLeft(ENCODER_ROTATION / 4);

@@ -13,10 +13,10 @@ public class VacuumValve {
         this.servo = servo;
     }
     public void release (){
-        servo.setPosition(.3);
+        servo.setPosition(.2);
     }
     public void close (){
-        servo.setPosition(.7);
+        servo.setPosition(.8);
     }
     public void stop (){
         servo.setPosition(.5);

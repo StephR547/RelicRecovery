@@ -83,6 +83,7 @@ public class ElevatorStages {
             elevatorPosition = motor.getCurrentPosition();
         } else if (usingElevatorJoystick) {
             usingElevatorJoystick = false;
+            //motor.setPower(.10);
             motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             motor.setTargetPosition(elevatorPosition);
         }

@@ -20,6 +20,10 @@ public class MecanumTeleop extends LinearOpMode {
 
         telemetry.log().add("RobotInit");
 
+        robot.colorSensorTop.enableLed(false);
+        robot.colorSensorBottom.enableLed(false);
+
+
         waitForStart();
 
         telemetry.log().add("RobotStarted");
@@ -122,10 +126,13 @@ public class MecanumTeleop extends LinearOpMode {
         //Glyph Joystick Control
         robot.elevatorStages.manuelcontrol(-gamepad2.left_stick_y);
 
+        telemetry.addData("Encoderlift", robot.elevatorStages.motor.getCurrentPosition());
+
         //Relic Control
         robot.relicElevator.setPower(gamepad2.right_stick_y);
 
-        telemetry.addData("Encoderlift", robot.elevatorStages.motor.getCurrentPosition());
+        telemetry.addData("EncoderRelic", robot.relicElevator.getCurrentPosition());
+
 
     }
 

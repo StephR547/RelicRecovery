@@ -50,12 +50,11 @@ public abstract class MecanumAuton extends LinearOpMode {
 
         jewelRemoval();
 
-
         driveToParkingZone();
 
         glyphAllignment(picture, telemetry);
 
-        glyphDelivery();
+       // glyphDelivery();
 
         telemetry.update();
 
@@ -66,17 +65,31 @@ public abstract class MecanumAuton extends LinearOpMode {
 
     public abstract void glyphAllignment(RelicRecoveryVuMark vuMark, Telemetry telemetry) throws InterruptedException;
 
-    public void glyphDelivery() throws InterruptedException {
+    public void glyphDeliveryBlue() throws InterruptedException {
         robot.elevatorStages.stage1Delivery();
-        Thread.sleep(2200);
+        Thread.sleep(2000);
         robot.elevatorStages.motor.setPower(.10);
         drive(-300);
         robot.vacuumLatch.release();
-        Thread.sleep(1500);
+        Thread.sleep(1000);
         robot.vacuumLatch.intialize();
         drive(ENCODER_ROTATION - (ENCODER_ROTATION / 2));
         robot.vacuumServo.close();
         Thread.sleep(500);
+        robot.elevatorStages.stage2Delivery();
+        Thread.sleep(500);
+        drive(-ENCODER_ROTATION / 2);
+    }
+    public void glyphDeliveryRed() throws InterruptedException {
+        robot.elevatorStages.stage1Delivery();
+        Thread.sleep(1000);
+        robot.elevatorStages.motor.setPower(.10);
+        robot.vacuumLatch.release();
+        Thread.sleep(300);
+        robot.vacuumLatch.intialize();
+        drive(700);
+        robot.vacuumServo.close();
+        Thread.sleep(300);
         robot.elevatorStages.stage2Delivery();
         Thread.sleep(500);
         drive(-ENCODER_ROTATION / 2);
@@ -178,7 +191,7 @@ public abstract class MecanumAuton extends LinearOpMode {
         robot.backLeftMotor.setTargetPosition(distance);
         robot.backRightMotor.setTargetPosition(-distance);
 
-        Thread.sleep(2000);
+        Thread.sleep(4000);
 
         resetEncoders();
 
