@@ -107,7 +107,7 @@ public class MecanumTeleop extends LinearOpMode {
         //Gamepad1 Servo Controls
         //Jewel Arm
         if (gamepad1.dpad_up) {
-            robot.jewelArm.setPosition(.15);
+            robot.jewelArm.setPosition(.004);
         } else if (gamepad1.dpad_down) {
             robot.jewelArm.setPosition(.66);
         }
@@ -116,6 +116,14 @@ public class MecanumTeleop extends LinearOpMode {
             robot.vacuumLatch.release();
         } else {
             robot.vacuumLatch.intialize();
+        }
+        //Tilt Arms
+        if (gamepad1.left_bumper){
+            robot.tiltServos.release();
+        }else if (gamepad1.left_trigger > .2) {
+            robot.tiltServos.retracte();
+        }else {
+            robot.tiltServos.stop();
         }
 
 

@@ -28,29 +28,28 @@ public class MecanumRed extends MecanumAuton {
             telemetry.log().add("STATE (R): ", "Red");
             rotateLeft(ENCODER_ROTATION / 4);
             robot.jewelArm.setPosition(.004);
-            Thread.sleep(1500);
+            Thread.sleep(500);
             rotateLeft(-ENCODER_ROTATION / 4);
         } else if (redT < blueT) {
             telemetry.log().add("STATE (B): ", "Blue");
             rotateLeft(-ENCODER_ROTATION / 4);
             robot.jewelArm.setPosition(.004);
-            Thread.sleep(1500);
+            Thread.sleep(500);
             rotateLeft(ENCODER_ROTATION / 4);
-        }else {
+        } else {
             if (redB > blueB) {
                 telemetry.log().add("STATE (R)(Backup): ", "Red-Backup");
                 rotateLeft(ENCODER_ROTATION / 4);
                 robot.jewelArm.setPosition(.004);
-                Thread.sleep(1500);
+                Thread.sleep(500);
                 rotateLeft(-ENCODER_ROTATION / 4);
             } else if (redB < blueB) {
                 telemetry.log().add("STATE (B)(Backup): ", "Blue-Backup");
                 rotateLeft(-ENCODER_ROTATION / 4);
                 robot.jewelArm.setPosition(.004);
-                Thread.sleep(1500);
+                Thread.sleep(500);
                 rotateLeft(ENCODER_ROTATION / 4);
-            }
-            else {
+            } else {
                 telemetry.log().add("Unknown", "Unknown");
                 robot.jewelArm.setPosition(.004);
             }

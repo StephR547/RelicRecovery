@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.balancingBoard.TiltServos;
 import org.firstinspires.ftc.teamcode.glyph.ElevatorStages;
 import org.firstinspires.ftc.teamcode.glyph.vacuum.VacuumLatch;
 import org.firstinspires.ftc.teamcode.glyph.vacuum.VacuumValve;
@@ -25,11 +26,13 @@ public class MecanumHardware {
     public DcMotor backRightMotor = null;
     public DcMotor relicElevator = null;
     public ElevatorStages elevatorStages = null;
+
     public VacuumValve vacuumServo = null;
     public VacuumLatch vacuumLatch = null;
     public Servo jewelArm = null;
     public RelicClamp relicClamp = null;
     public RelicPivot relicPivot = null;
+    public TiltServos tiltServos = null;
 
 
     public IMU imu;
@@ -89,6 +92,7 @@ public class MecanumHardware {
         jewelArm = hwMap.servo.get("jewelArm");
         relicClamp = new RelicClamp(hwMap.servo.get("relicClamp"));
         relicPivot = new RelicPivot(hwMap.servo.get("relicPivotLeft"), hwMap.servo.get("relicPivotRight"));
+        tiltServos = new TiltServos(hwMap.servo.get("tiltLeft"), hwMap.servo.get("tiltRight"));
 
 
         //Servos Initialize
@@ -97,6 +101,7 @@ public class MecanumHardware {
         jewelArm.setPosition(.004);
         relicClamp.close();
         relicPivot.initilize();
+        tiltServos.stop();
 
     }
 

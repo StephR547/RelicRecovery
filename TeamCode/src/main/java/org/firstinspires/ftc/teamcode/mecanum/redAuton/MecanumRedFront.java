@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.mecanum.blueAuton;
+package org.firstinspires.ftc.teamcode.mecanum.redAuton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -8,38 +8,39 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 /**
  * Created by StephanieRamirez on 12/8/17.
  */
-@Autonomous(name = "MecanumBlueFar")
-public class MecanumBlueFar extends MecanumBlue {
+@Autonomous(name = "MecanumRedFront")
+public class MecanumRedFront extends MecanumRed {
 
     @Override
     public void driveToParkingZone() throws InterruptedException {
-        drive(ENCODER_ROTATION * 2);
-        rotateLeft(ENCODER_ROTATION * 4, 4);
+        //drive(-ENCODER_ROTATION * 5);
+        rotateLeft(4500, 4);
+        drive(2600);
+
     }
 
     @Override
     public void glyphAllignment(RelicRecoveryVuMark vuMark, Telemetry telemetry) throws InterruptedException {
         if (vuMark == RelicRecoveryVuMark.LEFT || vuMark == RelicRecoveryVuMark.UNKNOWN) {
-            drive(ENCODER_ROTATION);
-            rotateLeft(ENCODER_ROTATION * 4, 4);
+            strafeRightSlow(ENCODER_ROTATION * 3 - 500, 4);
 
             telemetry.log().add("Left", RelicRecoveryVuMark.LEFT);
 
         } else if (vuMark == RelicRecoveryVuMark.CENTER) {
-            drive(ENCODER_ROTATION + 1000);
-            rotateLeft(ENCODER_ROTATION * 4, 4);
+            strafeRight(ENCODER_ROTATION + 500);
+            drive(200);
 
             telemetry.log().add("Center", RelicRecoveryVuMark.CENTER);
 
         } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-            drive(ENCODER_ROTATION + 2000);
-            rotateLeft(ENCODER_ROTATION * 4, 4);
+            strafeRight(950);
 
             telemetry.log().add("Right", RelicRecoveryVuMark.RIGHT);
 
         }
         telemetry.update();
 
-    }
+        glyphDeliveryRed();
 
+    }
 }

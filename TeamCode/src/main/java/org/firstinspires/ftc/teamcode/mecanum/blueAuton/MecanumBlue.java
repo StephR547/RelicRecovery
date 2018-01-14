@@ -16,7 +16,7 @@ public class MecanumBlue extends MecanumAuton {
     public void jewelRemoval() throws InterruptedException {
 
         robot.jewelArm.setPosition(.90);
-        Thread.sleep(3000);
+        Thread.sleep(1500);
 
         int redT = robot.colorSensorTop.red();
         int blueT = robot.colorSensorTop.blue();
@@ -28,13 +28,13 @@ public class MecanumBlue extends MecanumAuton {
             telemetry.log().add("STATE (B): ", "Blue");
             rotateLeft(ENCODER_ROTATION / 4);
             robot.jewelArm.setPosition(.004);
-            Thread.sleep(3000);
+            Thread.sleep(500);
             rotateLeft(-ENCODER_ROTATION / 4);
         } else if (redT > blueT) {
             telemetry.log().add("STATE (R): ", "Red");
             rotateLeft(-ENCODER_ROTATION / 4);
             robot.jewelArm.setPosition(.004);
-            Thread.sleep(3000);
+            Thread.sleep(500);
             rotateLeft(ENCODER_ROTATION / 4);
         }
         else {
@@ -42,13 +42,13 @@ public class MecanumBlue extends MecanumAuton {
                 telemetry.log().add("STATE (B): ", "Blue");
                 rotateLeft(ENCODER_ROTATION / 4);
                 robot.jewelArm.setPosition(.004);
-                Thread.sleep(3000);
+                Thread.sleep(500);
                 rotateLeft(-ENCODER_ROTATION / 4);
             } else if (redB > blueB) {
                 telemetry.log().add("STATE (R): ", "Red");
                 rotateLeft(-ENCODER_ROTATION / 4);
                 robot.jewelArm.setPosition(.004);
-                Thread.sleep(3000);
+                Thread.sleep(500);
                 rotateLeft(ENCODER_ROTATION / 4);
             } else {
                 telemetry.log().add("Unknown", "Unknown");

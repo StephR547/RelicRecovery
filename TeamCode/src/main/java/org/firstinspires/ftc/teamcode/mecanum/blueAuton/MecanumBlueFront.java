@@ -8,8 +8,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 /**
  * Created by StephanieRamirez on 12/2/17.
  */
-@Autonomous(name = "MecanumBlueClose")
-public class MecanumBlueClose extends MecanumBlue {
+@Autonomous(name = "MecanumBlueFront")
+public class MecanumBlueFront extends MecanumBlue {
 
 
     @Override
@@ -30,7 +30,7 @@ public class MecanumBlueClose extends MecanumBlue {
             telemetry.log().add("Center", RelicRecoveryVuMark.CENTER);
 
         } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-            strafeRight(-ENCODER_ROTATION * 3);
+            strafeRight((-ENCODER_ROTATION - 150) * 2);
 
             telemetry.log().add("Right", RelicRecoveryVuMark.RIGHT);
 

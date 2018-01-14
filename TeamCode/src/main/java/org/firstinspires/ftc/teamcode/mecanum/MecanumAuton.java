@@ -2,12 +2,11 @@ package org.firstinspires.ftc.teamcode.mecanum;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentifier;
-import com.vuforia.Vuforia;
+
 
 /**
  * Created by StephanieRamirez on 11/11/17.
@@ -18,8 +17,6 @@ public abstract class MecanumAuton extends LinearOpMode {
     protected MecanumHardware robot = new MecanumHardware();
     protected VuMarkIdentifier vumark = null;
     protected final int ENCODER_ROTATION = 1495;
-    protected final double JEWEL_SPEED = .3;
-    protected final int Encoder_Slack = 100;
     protected RelicRecoveryVuMark picture;
 
     @Override
@@ -37,7 +34,6 @@ public abstract class MecanumAuton extends LinearOpMode {
 
         waitForStart();
 
-
         picture = vumark.getVuMark();
 
         telemetry.log().add(picture.toString());
@@ -54,7 +50,7 @@ public abstract class MecanumAuton extends LinearOpMode {
 
         glyphAllignment(picture, telemetry);
 
-       // glyphDelivery();
+        // glyphDelivery();
 
         telemetry.update();
 
@@ -67,31 +63,33 @@ public abstract class MecanumAuton extends LinearOpMode {
 
     public void glyphDeliveryBlue() throws InterruptedException {
         robot.elevatorStages.stage1Delivery();
-        Thread.sleep(2000);
+        Thread.sleep(600);
         robot.elevatorStages.motor.setPower(.10);
-        drive(-300);
+        drive(-300, 1);
         robot.vacuumLatch.release();
-        Thread.sleep(1000);
+        Thread.sleep(200);
         robot.vacuumLatch.intialize();
-        drive(ENCODER_ROTATION - (ENCODER_ROTATION / 2));
+        drive(1000, 2);
         robot.vacuumServo.close();
-        Thread.sleep(500);
+        Thread.sleep(200);
         robot.elevatorStages.stage2Delivery();
-        Thread.sleep(500);
-        drive(-ENCODER_ROTATION / 2);
+        Thread.sleep(300);
+        drive(-ENCODER_ROTATION / 2, 1);
     }
+
     public void glyphDeliveryRed() throws InterruptedException {
         robot.elevatorStages.stage1Delivery();
-        Thread.sleep(1000);
+        Thread.sleep(600);
         robot.elevatorStages.motor.setPower(.10);
+        drive(-300, 1);
         robot.vacuumLatch.release();
-        Thread.sleep(300);
+        Thread.sleep(200);
         robot.vacuumLatch.intialize();
-        drive(700);
+        drive(700, 2);
         robot.vacuumServo.close();
-        Thread.sleep(300);
+        Thread.sleep(200);
         robot.elevatorStages.stage2Delivery();
-        Thread.sleep(500);
+        Thread.sleep(300);
         drive(-ENCODER_ROTATION / 2);
     }
 
@@ -110,17 +108,9 @@ public abstract class MecanumAuton extends LinearOpMode {
 
         resetEncoders();
 
-        robot.frontLeftMotor.setPower(0);
-        robot.frontRightMotor.setPower(0);
-        robot.backLeftMotor.setPower(0);
-        robot.backRightMotor.setPower(0);
+        drivePower(0);
 
-
-        robot.frontLeftMotor.setPower(.2);
-        robot.frontRightMotor.setPower(.2);
-        robot.backLeftMotor.setPower(.2);
-        robot.backRightMotor.setPower(.2);
-
+        drivePower(.40);
 
         robot.frontLeftMotor.setTargetPosition(-distance);
         robot.frontRightMotor.setTargetPosition(distance);
@@ -131,76 +121,122 @@ public abstract class MecanumAuton extends LinearOpMode {
 
         resetEncoders();
 
-        robot.frontLeftMotor.setPower(0);
-        robot.frontRightMotor.setPower(0);
-        robot.backLeftMotor.setPower(0);
-        robot.backRightMotor.setPower(0);
+        drivePower(0);
 
     }
 
     public void drive(int distance) throws InterruptedException {
+        drive(distance, 3);
+    }
+
+
+    public void drive(int distance, int seconds) throws InterruptedException {
 
         resetEncoders();
 
-        robot.frontLeftMotor.setPower(0);
-        robot.frontRightMotor.setPower(0);
-        robot.backLeftMotor.setPower(0);
-        robot.backRightMotor.setPower(0);
+        drivePower(0);
 
-
-        robot.frontLeftMotor.setPower(.3);
-        robot.frontRightMotor.setPower(.3);
-        robot.backLeftMotor.setPower(.3);
-        robot.backRightMotor.setPower(.3);
+        drivePower(.50);
 
         robot.frontLeftMotor.setTargetPosition(distance);
         robot.frontRightMotor.setTargetPosition(distance);
         robot.backLeftMotor.setTargetPosition(distance);
         robot.backRightMotor.setTargetPosition(distance);
 
-        Thread.sleep(3000);
+        Thread.sleep(seconds * 1000);
 
         resetEncoders();
 
-        robot.frontLeftMotor.setPower(0);
-        robot.frontRightMotor.setPower(0);
-        robot.backLeftMotor.setPower(0);
-        robot.backRightMotor.setPower(0);
+        drivePower(0);
 
 
     }
 
-
-    public void strafeRight(int distance) throws InterruptedException {
+    public void acceleration(int distance) throws InterruptedException {
+        double maxSpeed = .60;
+        double minSpeed = .30;
+        int encoderTolerance = 10;
 
         resetEncoders();
 
-        robot.frontLeftMotor.setPower(0);
-        robot.frontRightMotor.setPower(0);
-        robot.backLeftMotor.setPower(0);
-        robot.backRightMotor.setPower(0);
+        drivePower(0);
+
+        drivePower(minSpeed);
+
+        robot.frontLeftMotor.setTargetPosition(distance);
+        robot.frontRightMotor.setTargetPosition(distance);
+        robot.backLeftMotor.setTargetPosition(distance);
+        robot.backRightMotor.setTargetPosition(distance);
+
+        while (Math.abs(robot.frontLeftMotor.getCurrentPosition()) < Math.abs(distance) / 2) {
+            //pass
+        }
+
+        drivePower(maxSpeed);
+
+        while (Math.abs(robot.frontLeftMotor.getCurrentPosition()) < Math.abs(distance) - encoderTolerance) {
+            //pass
+        }
 
 
-        robot.frontLeftMotor.setPower(.5);
-        robot.frontRightMotor.setPower(.5);
-        robot.backLeftMotor.setPower(.5);
-        robot.backRightMotor.setPower(.5);
+    }
+
+    public void strafeRight(int distance) throws InterruptedException {
+        strafeRight(distance, 4);
+    }
+
+
+    public void strafeRight(int distance, int seconds) throws InterruptedException {
+
+        resetEncoders();
+
+        drivePower(0);
+
+
+        drivePower(.60);
 
         robot.frontLeftMotor.setTargetPosition(-distance);
         robot.frontRightMotor.setTargetPosition(distance);
         robot.backLeftMotor.setTargetPosition(distance);
         robot.backRightMotor.setTargetPosition(-distance);
 
-        Thread.sleep(4000);
+        Thread.sleep(seconds * 1000);
 
         resetEncoders();
 
-        robot.frontLeftMotor.setPower(0);
-        robot.frontRightMotor.setPower(0);
-        robot.backLeftMotor.setPower(0);
-        robot.backRightMotor.setPower(0);
+        drivePower(0);
 
 
+    }
+    public void strafeRightSlow(int distance, int seconds) throws InterruptedException {
+
+        resetEncoders();
+
+        drivePower(0);
+
+
+        drivePower(.50);
+
+        robot.frontLeftMotor.setTargetPosition(-distance);
+        robot.frontRightMotor.setTargetPosition(distance);
+        robot.backLeftMotor.setTargetPosition(distance);
+        robot.backRightMotor.setTargetPosition(-distance);
+
+        Thread.sleep(seconds * 1000);
+
+        resetEncoders();
+
+        drivePower(0);
+
+
+    }
+
+    private void drivePower(double power) {
+
+        robot.frontLeftMotor.setPower(power);
+        robot.frontRightMotor.setPower(power);
+        robot.backLeftMotor.setPower(power);
+        robot.backRightMotor.setPower(power);
     }
 
     private void resetEncoders() {
@@ -218,20 +254,6 @@ public abstract class MecanumAuton extends LinearOpMode {
         robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
-
-    private void waitDrivePosition() {
-        while (opModeIsActive()
-                && (robot.frontLeftMotor.isBusy()
-                || robot.frontRightMotor.isBusy()
-                || robot.backLeftMotor.isBusy()
-                || robot.backRightMotor.isBusy())) {
-
-            telemetry.addData("movement", robot.frontLeftMotor.getCurrentPosition());
-            telemetry.update();
-        }
-        telemetry.addData("Done", "done");
-        telemetry.update();
     }
 
 
