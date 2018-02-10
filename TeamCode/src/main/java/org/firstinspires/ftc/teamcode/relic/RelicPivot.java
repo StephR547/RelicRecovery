@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.relic;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
+
 /**
  * Created by StephanieRamirez on 12/16/17.
  */
@@ -15,6 +16,7 @@ public class RelicPivot {
         this.servo2 = servo2;
 
     }
+
     //Servo
     public void up() {
         servo.setPosition(.3);

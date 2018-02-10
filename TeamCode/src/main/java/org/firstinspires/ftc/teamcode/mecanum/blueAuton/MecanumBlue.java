@@ -36,8 +36,7 @@ public class MecanumBlue extends MecanumAuton {
             robot.jewelArm.setPosition(.004);
             Thread.sleep(500);
             rotateLeft(ENCODER_ROTATION / 4);
-        }
-        else {
+        } else {
             if (redB < blueB) {
                 telemetry.log().add("STATE (B): ", "Blue");
                 rotateLeft(ENCODER_ROTATION / 4);

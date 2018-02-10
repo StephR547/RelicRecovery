@@ -14,7 +14,7 @@ public class MecanumRedFront extends MecanumRed {
     @Override
     public void driveToParkingZone() throws InterruptedException {
         //drive(-ENCODER_ROTATION * 5);
-        rotateLeft(4500, 4);
+        rotateLeft(4500, 8);//4);
         drive(2600);
 
     }
@@ -22,7 +22,7 @@ public class MecanumRedFront extends MecanumRed {
     @Override
     public void glyphAllignment(RelicRecoveryVuMark vuMark, Telemetry telemetry) throws InterruptedException {
         if (vuMark == RelicRecoveryVuMark.LEFT || vuMark == RelicRecoveryVuMark.UNKNOWN) {
-            strafeRightSlow(ENCODER_ROTATION * 3 - 500, 4);
+            strafeRightSlow(ENCODER_ROTATION * 3 - 500, 8);//4);
 
             telemetry.log().add("Left", RelicRecoveryVuMark.LEFT);
 

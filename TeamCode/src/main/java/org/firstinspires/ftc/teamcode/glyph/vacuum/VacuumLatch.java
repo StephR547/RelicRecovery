@@ -15,7 +15,7 @@ public class VacuumLatch {
     }
 
     public void release() {
-        latch.setPosition(1);
+        latch.setPosition(0);
     }
 
     public void intialize() {

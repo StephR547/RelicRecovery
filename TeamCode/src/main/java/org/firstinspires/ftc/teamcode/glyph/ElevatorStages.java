@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class ElevatorStages {
     public DcMotor motor;
 
-    final int STAGE_1_DELIVERY = 1600;
+    final int STAGE_1_DELIVERY = 1500;
     final int STAGE_2_DELIVERY = 1900;
     final int STAGE_3_DELIVERY = 15000;
     final int STAGE_4_DELIVERY = 19500;
@@ -26,16 +26,22 @@ public class ElevatorStages {
     }
 
     //Glyph Delivery
-    public void stage1Delivery() {
+    public void stage1Delivery() throws InterruptedException {
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setTargetPosition(STAGE_1_DELIVERY);
         motor.setPower(.5);
+       /* Thread.sleep(500);
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setPower(0);*/
     }
 
-    public void stage2Delivery() {
+    public void stage2Delivery() throws InterruptedException {
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setTargetPosition(STAGE_2_DELIVERY);
         motor.setPower(.5);
+       /* Thread.sleep(250);
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setPower(0);*/
     }
 
     public void stage3Delivery() {
@@ -83,7 +89,7 @@ public class ElevatorStages {
             elevatorPosition = motor.getCurrentPosition();
         } else if (usingElevatorJoystick) {
             usingElevatorJoystick = false;
-            //motor.setPower(.10);
+            // motor.setPower(.05);
             motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             motor.setTargetPosition(elevatorPosition);
         }

@@ -98,7 +98,7 @@ public class MecanumHardware {
         //Servos Initialize
         vacuumServo.stop();
         vacuumLatch.intialize();
-        jewelArm.setPosition(.004);
+        jewelArm.setPosition(.010);
         relicClamp.close();
         relicPivot.initilize();
         tiltServos.stop();

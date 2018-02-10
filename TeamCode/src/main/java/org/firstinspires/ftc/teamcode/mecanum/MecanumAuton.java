@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.mecanum;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
@@ -17,6 +18,7 @@ public abstract class MecanumAuton extends LinearOpMode {
     protected MecanumHardware robot = new MecanumHardware();
     protected VuMarkIdentifier vumark = null;
     protected final int ENCODER_ROTATION = 1495;
+    protected final int ENCODER_SLACK = 50;
     protected RelicRecoveryVuMark picture;
 
     @Override
@@ -64,32 +66,34 @@ public abstract class MecanumAuton extends LinearOpMode {
     public void glyphDeliveryBlue() throws InterruptedException {
         robot.elevatorStages.stage1Delivery();
         Thread.sleep(600);
-        robot.elevatorStages.motor.setPower(.10);
-        drive(-300, 1);
+        robot.elevatorStages.motor.setPower(.05);
+        drive(-350, 3);//1);
         robot.vacuumLatch.release();
         Thread.sleep(200);
         robot.vacuumLatch.intialize();
-        drive(1000, 2);
+        drive(1000, 4);//2);
         robot.vacuumServo.close();
         Thread.sleep(200);
         robot.elevatorStages.stage2Delivery();
         Thread.sleep(300);
-        drive(-ENCODER_ROTATION / 2, 1);
+        drive(300);
+        drive(-ENCODER_ROTATION / 2, 3);//1);
     }
 
     public void glyphDeliveryRed() throws InterruptedException {
         robot.elevatorStages.stage1Delivery();
         Thread.sleep(600);
         robot.elevatorStages.motor.setPower(.10);
-        drive(-300, 1);
+        drive(-300, 3);//1);
         robot.vacuumLatch.release();
         Thread.sleep(200);
         robot.vacuumLatch.intialize();
-        drive(700, 2);
+        drive(900, 4);//2);
         robot.vacuumServo.close();
         Thread.sleep(200);
         robot.elevatorStages.stage2Delivery();
         Thread.sleep(300);
+        drive(300);
         drive(-ENCODER_ROTATION / 2);
     }
 
@@ -101,7 +105,7 @@ public abstract class MecanumAuton extends LinearOpMode {
     }
 
     public void rotateLeft(int distance) throws InterruptedException {
-        rotateLeft(distance, 1);
+        rotateLeft(distance, 3);//1);
     }
 
     public void rotateLeft(int distance, int seconds) throws InterruptedException {
@@ -117,7 +121,7 @@ public abstract class MecanumAuton extends LinearOpMode {
         robot.backLeftMotor.setTargetPosition(-distance);
         robot.backRightMotor.setTargetPosition(distance);
 
-        Thread.sleep(seconds * 1000);
+        waitForMotors(seconds);
 
         resetEncoders();
 
@@ -126,7 +130,7 @@ public abstract class MecanumAuton extends LinearOpMode {
     }
 
     public void drive(int distance) throws InterruptedException {
-        drive(distance, 3);
+        drive(distance, 6);//3);
     }
 
 
@@ -143,7 +147,7 @@ public abstract class MecanumAuton extends LinearOpMode {
         robot.backLeftMotor.setTargetPosition(distance);
         robot.backRightMotor.setTargetPosition(distance);
 
-        Thread.sleep(seconds * 1000);
+        waitForMotors(seconds);
 
         resetEncoders();
 
@@ -151,6 +155,28 @@ public abstract class MecanumAuton extends LinearOpMode {
 
 
     }
+    public void Slowdrive(int distance, int seconds) throws InterruptedException {
+
+        resetEncoders();
+
+        drivePower(0);
+
+        drivePower(.35);
+
+        robot.frontLeftMotor.setTargetPosition(distance);
+        robot.frontRightMotor.setTargetPosition(distance);
+        robot.backLeftMotor.setTargetPosition(distance);
+        robot.backRightMotor.setTargetPosition(distance);
+
+        waitForMotors(seconds);
+
+        resetEncoders();
+
+        drivePower(0);
+
+
+    }
+
 
     public void acceleration(int distance) throws InterruptedException {
         double maxSpeed = .60;
@@ -182,7 +208,7 @@ public abstract class MecanumAuton extends LinearOpMode {
     }
 
     public void strafeRight(int distance) throws InterruptedException {
-        strafeRight(distance, 4);
+        strafeRight(distance, 8); //4);
     }
 
 
@@ -200,7 +226,7 @@ public abstract class MecanumAuton extends LinearOpMode {
         robot.backLeftMotor.setTargetPosition(distance);
         robot.backRightMotor.setTargetPosition(-distance);
 
-        Thread.sleep(seconds * 1000);
+        waitForMotors(seconds);
 
         resetEncoders();
 
@@ -208,6 +234,7 @@ public abstract class MecanumAuton extends LinearOpMode {
 
 
     }
+
     public void strafeRightSlow(int distance, int seconds) throws InterruptedException {
 
         resetEncoders();
@@ -222,12 +249,35 @@ public abstract class MecanumAuton extends LinearOpMode {
         robot.backLeftMotor.setTargetPosition(distance);
         robot.backRightMotor.setTargetPosition(-distance);
 
-        Thread.sleep(seconds * 1000);
+        waitForMotors(seconds);
 
         resetEncoders();
 
         drivePower(0);
 
+
+    }
+
+    protected void waitForMotors(double timeout) {
+        ElapsedTime stopWatch = new ElapsedTime();
+
+        while (!(stopWatch.seconds() > timeout || motorsHaveReachedTheirTargetPosition())) {
+
+        }
+    }
+
+    protected boolean motorsHaveReachedTheirTargetPosition() {
+
+        double frontLeftMotorError = Math.abs(robot.frontLeftMotor.getTargetPosition() - robot.frontLeftMotor.getCurrentPosition());
+        double frontRightMotorError = Math.abs(robot.frontRightMotor.getTargetPosition() - robot.frontRightMotor.getCurrentPosition());
+        double backLeftMotorError = Math.abs(robot.backLeftMotor.getTargetPosition() - robot.backLeftMotor.getCurrentPosition());
+        double backRightMotorError = Math.abs(robot.backRightMotor.getTargetPosition() - robot.backRightMotor.getCurrentPosition());
+
+        if (frontLeftMotorError < ENCODER_SLACK && frontRightMotorError < ENCODER_SLACK && backLeftMotorError < ENCODER_SLACK && backRightMotorError < ENCODER_SLACK) {
+            return true;
+        } else {
+            return false;
+        }
 
     }
 

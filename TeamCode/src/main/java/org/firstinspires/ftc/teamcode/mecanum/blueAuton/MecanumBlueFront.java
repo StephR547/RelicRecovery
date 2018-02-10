@@ -15,6 +15,8 @@ public class MecanumBlueFront extends MecanumBlue {
     @Override
     public void driveToParkingZone() throws InterruptedException {
         drive(ENCODER_ROTATION * 2);
+        Slowdrive(-ENCODER_ROTATION, 1);
+        drive(250);
     }
 
     @Override

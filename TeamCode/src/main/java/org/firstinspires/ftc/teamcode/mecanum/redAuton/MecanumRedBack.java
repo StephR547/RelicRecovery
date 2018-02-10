@@ -22,26 +22,26 @@ public class MecanumRedBack extends MecanumRed {
     public void glyphAllignment(RelicRecoveryVuMark vuMark, Telemetry telemetry) throws InterruptedException {
         if (vuMark == RelicRecoveryVuMark.LEFT || vuMark == RelicRecoveryVuMark.UNKNOWN) {
             drive(-(ENCODER_ROTATION + 945));
-            strafeRight(-800, 2);
-            rotateLeft(ENCODER_ROTATION + 900, 3);
-            drive(300, 1);
+            strafeRight(-800, 4); //2);
+            rotateLeft(ENCODER_ROTATION + 900, 6);//3);
+            drive(300, 3);//1);
 
             telemetry.log().add("Left", RelicRecoveryVuMark.LEFT);
 
 
         } else if (vuMark == RelicRecoveryVuMark.CENTER) {
             drive(-ENCODER_ROTATION);
-            strafeRight(-800, 2);
-            rotateLeft(ENCODER_ROTATION + 900, 3);
-            drive(300, 1);
+            strafeRight(-800, 4);// 2);
+            rotateLeft(ENCODER_ROTATION + 900, 6);//3);
+            drive(300, 3);//1);
 
             telemetry.log().add("Center", RelicRecoveryVuMark.CENTER);
 
         } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-            drive(-550, 1);
-            strafeRight(-800, 2);
-            rotateLeft(ENCODER_ROTATION + 900, 3);
-            drive(300, 1);
+            drive(-550, 3); //1);
+            strafeRight(-800, 4); //2);
+            rotateLeft(ENCODER_ROTATION + 900, 6); //3);
+            drive(300, 3); //1);
 
             telemetry.log().add("Right", RelicRecoveryVuMark.RIGHT);
 

@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.relic.AutomaticRelicElevator;
+
 /**
  * Created by StephanieRamirez on 9/22/17.
  */
@@ -11,6 +13,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class MecanumTeleop extends LinearOpMode {
 
     private MecanumHardware robot = new MecanumHardware();
+    private AutomaticRelicElevator automaticRelicElevator;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -24,11 +27,15 @@ public class MecanumTeleop extends LinearOpMode {
         robot.colorSensorBottom.enableLed(false);
 
 
+        automaticRelicElevator = new AutomaticRelicElevator(robot);
+
         waitForStart();
 
         telemetry.log().add("RobotStarted");
 
         while (opModeIsActive()) {
+
+           // automaticRelicElevator.execute();
 
             double slowDown = (gamepad1.right_trigger > .5) ? 0.2 : 1;
             double slowDownStrafing = (gamepad1.right_trigger > .5) ? 0.5 : 1;
@@ -107,7 +114,7 @@ public class MecanumTeleop extends LinearOpMode {
         //Gamepad1 Servo Controls
         //Jewel Arm
         if (gamepad1.dpad_up) {
-            robot.jewelArm.setPosition(.004);
+            robot.jewelArm.setPosition(.008);
         } else if (gamepad1.dpad_down) {
             robot.jewelArm.setPosition(.66);
         }
