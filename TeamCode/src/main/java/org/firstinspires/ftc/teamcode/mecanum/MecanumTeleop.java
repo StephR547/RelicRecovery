@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.mecanum;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.relic.AutomaticRelicElevator;
 
@@ -14,6 +13,8 @@ public class MecanumTeleop extends LinearOpMode {
 
     private MecanumHardware robot = new MecanumHardware();
     private AutomaticRelicElevator automaticRelicElevator;
+
+    boolean previousButtonFlipValue = false;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -35,7 +36,7 @@ public class MecanumTeleop extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-           // automaticRelicElevator.execute();
+            // automaticRelicElevator.execute();
 
             double slowDown = (gamepad1.right_trigger > .5) ? 0.2 : 1;
             double slowDownStrafing = (gamepad1.right_trigger > .5) ? 0.5 : 1;
@@ -85,15 +86,27 @@ public class MecanumTeleop extends LinearOpMode {
     }
 
     public void servosControls() {
-        //Gamepad2 Servo Controls
+        boolean gamepad2RightBumper = gamepad2.right_bumper;
+
+        //Gamepad2 Servo Controls ~ Mandy
         //Vacuum Controls
         if (gamepad2.right_trigger >= .5) {
-            robot.vacuumServo.close();
+            robot.vacuumServos.release();
         } else if (gamepad2.left_trigger >= .5) {
-            robot.vacuumServo.release();
+            robot.vacuumServos.close();
         } else {
-            robot.vacuumServo.stop();
+            robot.vacuumServos.stop();
         }
+        if (gamepad2RightBumper == true && previousButtonFlipValue == false){
+            robot.vacuumServos.unlockAndFlip();
+        } else if (gamepad2RightBumper == true && previousButtonFlipValue == true) {
+            //Mandy holding right bumper down, Do nothing
+        } else {
+            robot.vacuumServos.stopFlipAndLock();
+
+        }
+        previousButtonFlipValue = gamepad2RightBumper;
+
         //Relic Controls
         if (gamepad2.left_bumper) {
             robot.relicClamp.release();
@@ -111,25 +124,20 @@ public class MecanumTeleop extends LinearOpMode {
             robot.relicPivot.initilize();
         }
 
-        //Gamepad1 Servo Controls
+
+        //Gamepad1 Servo Controls ~ Olivia Smalley
         //Jewel Arm
         if (gamepad1.dpad_up) {
             robot.jewelArm.setPosition(.008);
         } else if (gamepad1.dpad_down) {
             robot.jewelArm.setPosition(.66);
         }
-        //VacuumLatch
-        if (gamepad1.a) {
-            robot.vacuumLatch.release();
-        } else {
-            robot.vacuumLatch.intialize();
-        }
         //Tilt Arms
-        if (gamepad1.left_bumper){
+        if (gamepad1.left_bumper) {
             robot.tiltServos.release();
-        }else if (gamepad1.left_trigger > .2) {
+        } else if (gamepad1.left_trigger > .2) {
             robot.tiltServos.retracte();
-        }else {
+        } else {
             robot.tiltServos.stop();
         }
 

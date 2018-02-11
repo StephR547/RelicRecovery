@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.balancingBoard.TiltServos;
 import org.firstinspires.ftc.teamcode.glyph.ElevatorStages;
+import org.firstinspires.ftc.teamcode.glyph.vacuum.DoubleVacuum;
 import org.firstinspires.ftc.teamcode.glyph.vacuum.VacuumLatch;
-import org.firstinspires.ftc.teamcode.glyph.vacuum.VacuumValve;
 import org.firstinspires.ftc.teamcode.relic.RelicClamp;
 import org.firstinspires.ftc.teamcode.relic.RelicPivot;
 import org.firstinspires.ftc.teamcode.sensors.IMU;
@@ -27,8 +27,8 @@ public class MecanumHardware {
     public DcMotor relicElevator = null;
     public ElevatorStages elevatorStages = null;
 
-    public VacuumValve vacuumServo = null;
-    public VacuumLatch vacuumLatch = null;
+    public DoubleVacuum vacuumServos = null;
+   // public VacuumLatch vacuumLatch = null;
     public Servo jewelArm = null;
     public RelicClamp relicClamp = null;
     public RelicPivot relicPivot = null;
@@ -87,8 +87,8 @@ public class MecanumHardware {
     public void initServos() {
 
         //Servos Define
-        vacuumServo = new VacuumValve(hwMap.servo.get("vacuumServo"));
-        vacuumLatch = new VacuumLatch(hwMap.servo.get("vacuumLatch"));
+        vacuumServos = new DoubleVacuum(hwMap.servo.get("topValveServo"), hwMap.servo.get("bottomValveServo"), hwMap.servo.get("flipServo"), hwMap.servo.get("lockServo"));
+       // vacuumLatch = new VacuumLatch(hwMap.servo.get("vacuumLatch"));
         jewelArm = hwMap.servo.get("jewelArm");
         relicClamp = new RelicClamp(hwMap.servo.get("relicClamp"));
         relicPivot = new RelicPivot(hwMap.servo.get("relicPivotLeft"), hwMap.servo.get("relicPivotRight"));
@@ -96,8 +96,9 @@ public class MecanumHardware {
 
 
         //Servos Initialize
-        vacuumServo.stop();
-        vacuumLatch.intialize();
+        vacuumServos.stop();
+        vacuumServos.stopFlipAndLock();
+       // vacuumLatch.intialize();
         jewelArm.setPosition(.010);
         relicClamp.close();
         relicPivot.initilize();
