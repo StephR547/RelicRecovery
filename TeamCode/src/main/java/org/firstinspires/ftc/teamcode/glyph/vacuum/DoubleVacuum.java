@@ -23,21 +23,26 @@ public class DoubleVacuum {
 
     public void release() {
         if (isFlipped) {
-            topValveServo.setPosition(.2);
+            topValveServo.setPosition(.8);
         } else {
-            bottomValveServo.setPosition(.2);
+            bottomValveServo.setPosition(.8);
         }
 
     }
-    public void releaseTheTopServo() {
-        topValveServo.setPosition(.2);
+
+    public void releaseTheTopServo() throws InterruptedException {
+        topValveServo.setPosition(.8);
+
+        Thread.sleep(300);
+
+        topValveServo.setPosition(.5);
     }
 
     public void close() {
         if (isFlipped) {
-            topValveServo.setPosition(.8);
+            topValveServo.setPosition(.2);
         } else {
-            bottomValveServo.setPosition(.8);
+            bottomValveServo.setPosition(.2);
         }
 
     }
@@ -48,7 +53,14 @@ public class DoubleVacuum {
     }
 
     public void unlockAndFlip() {
-        lockServo.setPosition(0);
+
+        lockServo.setPosition(.5);
+
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+
+        }
         if (isFlipped) {
             flipServo.setPosition(1);
             isFlipped = false;
@@ -61,9 +73,24 @@ public class DoubleVacuum {
 
     public void stopFlipAndLock() {
         flipServo.setPosition(.5);
-        lockServo.setPosition(1);
+        lockServo.setPosition(.7);
     }
 
+    public void flipContinue() {
 
+        lockServo.setPosition(.5);
+
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+
+        }
+        if (isFlipped) {
+            flipServo.setPosition(0);
+        } else {
+            flipServo.setPosition(1);
+        }
+
+    }
 }
 

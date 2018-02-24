@@ -53,6 +53,17 @@ public abstract class MecanumAuton extends LinearOpMode {
         glyphAllignment(picture, telemetry);
 
         // glyphDelivery();
+        robot.vacuumServos.unlockAndFlip();
+
+        Thread.sleep(2000);
+
+        robot.vacuumServos.stopFlipAndLock();
+
+        robot.relicPivot.up();
+
+        Thread.sleep(3000);
+
+        robot.relicPivot.initilize();
 
         telemetry.update();
 
@@ -66,7 +77,7 @@ public abstract class MecanumAuton extends LinearOpMode {
     public void glyphDeliveryBlue() throws InterruptedException {
         robot.elevatorStages.stage1Delivery();
         Thread.sleep(600);
-        robot.elevatorStages.motor.setPower(.05);
+        robot.elevatorStages.motor.setPower(.15);
         drive(-350, 3);//1);
         robot.vacuumServos.releaseTheTopServo();
         Thread.sleep(200);
@@ -76,15 +87,16 @@ public abstract class MecanumAuton extends LinearOpMode {
         Thread.sleep(200);
         robot.elevatorStages.stage2Delivery();
         Thread.sleep(300);
+        robot.elevatorStages.motor.setPower(.15);
         drive(300);
-        drive(-ENCODER_ROTATION / 2, 3);//1);
+        drive(-1050, 3);//1);
     }
 
     public void glyphDeliveryRed() throws InterruptedException {
         robot.elevatorStages.stage1Delivery();
         Thread.sleep(600);
-        robot.elevatorStages.motor.setPower(.10);
-        drive(-300, 3);//1);
+        robot.elevatorStages.motor.setPower(.15);
+        drive(-200, 1);//1);
         robot.vacuumServos.releaseTheTopServo();
         Thread.sleep(200);
         robot.vacuumServos.stop();
@@ -93,8 +105,9 @@ public abstract class MecanumAuton extends LinearOpMode {
         Thread.sleep(200);
         robot.elevatorStages.stage2Delivery();
         Thread.sleep(300);
-        drive(300);
-        drive(-ENCODER_ROTATION / 2);
+        robot.elevatorStages.motor.setPower(.15);
+        drive(300, 1);
+        drive(-1050, 2);
     }
 
     public abstract void driveToParkingZone() throws InterruptedException;
@@ -155,6 +168,7 @@ public abstract class MecanumAuton extends LinearOpMode {
 
 
     }
+
     public void Slowdrive(int distance, int seconds) throws InterruptedException {
 
         resetEncoders();

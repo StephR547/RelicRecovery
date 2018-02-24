@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.relic;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.teamcode.mecanum.MecanumHardware;
 
 /**
@@ -9,7 +11,8 @@ import org.firstinspires.ftc.teamcode.mecanum.MecanumHardware;
 public class AutomaticRelicElevator {
     public MecanumHardware robot;
 
-    RelicElevatorStates currentStates = RelicElevatorStates.START;
+    RelicElevatorStates currentState = RelicElevatorStates.START;
+    ElapsedTime timeKeeper;
 
     enum RelicElevatorStates {
 
@@ -30,25 +33,27 @@ public class AutomaticRelicElevator {
 
    /* public boolean execute() {
 
-        switch (currentStates) {
+        switch (currentState) {
             case START:
                 robot.relicElevator.setTargetPosition(10000);
-                currentStates = RelicElevatorStates.EXTENDING_ELEVATOR;
+                currentState = RelicElevatorStates.EXTENDING_ELEVATOR;
                 break;
             case EXTENDING_ELEVATOR:
                 if (elevatorIsFullyExtended()) {
-                    pivotRelicDown();
-                    currentStates = RelicElevatorStates.PIVOTING_RELIC_DOWN;
+                    robot.relicPivot.down();
+                    timeKeeper = new ElapsedTime();
+                    currentState = RelicElevatorStates.PIVOTING_RELIC_DOWN;
                 }
                 break;
             case PIVOTING_RELIC_DOWN:
-                if (relicPivoedDown()) {
-
+                if (timeKeeper.seconds() > 5) {
+                    //stuff
                 }
+                break;
         }
 
     }
     public boolean elevatorIsFullyExtended() {
 
-    }*/
+    } */
 }

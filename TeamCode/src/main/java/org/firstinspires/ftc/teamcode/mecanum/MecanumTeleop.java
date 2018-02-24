@@ -36,7 +36,7 @@ public class MecanumTeleop extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            // automaticRelicElevator.execute();
+            //   automaticRelicElevator.execute();
 
             double slowDown = (gamepad1.right_trigger > .5) ? 0.2 : 1;
             double slowDownStrafing = (gamepad1.right_trigger > .5) ? 0.5 : 1;
@@ -97,47 +97,71 @@ public class MecanumTeleop extends LinearOpMode {
         } else {
             robot.vacuumServos.stop();
         }
-        if (gamepad2RightBumper == true && previousButtonFlipValue == false){
+        if (gamepad2RightBumper == true && previousButtonFlipValue == false) {
             robot.vacuumServos.unlockAndFlip();
         } else if (gamepad2RightBumper == true && previousButtonFlipValue == true) {
             //Mandy holding right bumper down, Do nothing
+        } else if (gamepad2.b) {
+            robot.vacuumServos.flipContinue();
+
         } else {
             robot.vacuumServos.stopFlipAndLock();
-
         }
+
         previousButtonFlipValue = gamepad2RightBumper;
 
+
         //Relic Controls
-        if (gamepad2.left_bumper) {
+        if (gamepad2.left_bumper)
+
+        {
             robot.relicClamp.release();
-        } else {
+        } else
+
+        {
             robot.relicClamp.close();
         }
 
-        if (gamepad2.y) {
+        if (gamepad2.y)
+
+        {
             robot.relicPivot.up();
 
-        } else if (gamepad2.a) {
+        } else if (gamepad2.a)
+
+        {
             robot.relicPivot.down();
 
-        } else {
+        } else
+
+        {
             robot.relicPivot.initilize();
         }
 
 
         //Gamepad1 Servo Controls ~ Olivia Smalley
         //Jewel Arm
-        if (gamepad1.dpad_up) {
+        if (gamepad1.dpad_up)
+
+        {
             robot.jewelArm.setPosition(.008);
-        } else if (gamepad1.dpad_down) {
+        } else if (gamepad1.dpad_down)
+
+        {
             robot.jewelArm.setPosition(.66);
         }
         //Tilt Arms
-        if (gamepad1.left_bumper) {
+        if (gamepad1.left_bumper)
+
+        {
             robot.tiltServos.release();
-        } else if (gamepad1.left_trigger > .2) {
+        } else if (gamepad1.left_trigger > .2)
+
+        {
             robot.tiltServos.retracte();
-        } else {
+        } else
+
+        {
             robot.tiltServos.stop();
         }
 

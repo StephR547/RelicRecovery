@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.mecanum;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -28,7 +29,7 @@ public class MecanumHardware {
     public ElevatorStages elevatorStages = null;
 
     public DoubleVacuum vacuumServos = null;
-   // public VacuumLatch vacuumLatch = null;
+    // public VacuumLatch vacuumLatch = null;
     public Servo jewelArm = null;
     public RelicClamp relicClamp = null;
     public RelicPivot relicPivot = null;
@@ -57,11 +58,12 @@ public class MecanumHardware {
         frontRightMotor = hwMap.dcMotor.get("frontRightMotor");
         backLeftMotor = hwMap.dcMotor.get("backLeftMotor");
         backRightMotor = hwMap.dcMotor.get("backRightMotor");
-        elevatorStages = new ElevatorStages(hwMap.dcMotor.get("elevatorMotor"));
+        elevatorStages = new ElevatorStages(hwMap.dcMotor.get("elevatorMotor"), hwMap.dcMotor.get("elevatorMotor2"));
         relicElevator = hwMap.dcMotor.get("relicElevator");
 
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        elevatorStages.motor.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to zero power
         frontLeftMotor.setPower(0);
@@ -88,7 +90,7 @@ public class MecanumHardware {
 
         //Servos Define
         vacuumServos = new DoubleVacuum(hwMap.servo.get("topValveServo"), hwMap.servo.get("bottomValveServo"), hwMap.servo.get("flipServo"), hwMap.servo.get("lockServo"));
-       // vacuumLatch = new VacuumLatch(hwMap.servo.get("vacuumLatch"));
+        // vacuumLatch = new VacuumLatch(hwMap.servo.get("vacuumLatch"));
         jewelArm = hwMap.servo.get("jewelArm");
         relicClamp = new RelicClamp(hwMap.servo.get("relicClamp"));
         relicPivot = new RelicPivot(hwMap.servo.get("relicPivotLeft"), hwMap.servo.get("relicPivotRight"));
@@ -98,7 +100,7 @@ public class MecanumHardware {
         //Servos Initialize
         vacuumServos.stop();
         vacuumServos.stopFlipAndLock();
-       // vacuumLatch.intialize();
+        // vacuumLatch.intialize();
         jewelArm.setPosition(.010);
         relicClamp.close();
         relicPivot.initilize();

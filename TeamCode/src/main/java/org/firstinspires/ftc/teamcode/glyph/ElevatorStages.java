@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class ElevatorStages {
     public DcMotor motor;
+    public DcMotor motor2;
 
     final int STAGE_1_DELIVERY = 1500;
     final int STAGE_2_DELIVERY = 1900;
@@ -21,63 +22,74 @@ public class ElevatorStages {
     int elevatorPosition;
     boolean usingElevatorJoystick;
 
-    public ElevatorStages(DcMotor motor) {
+    public ElevatorStages(DcMotor motor, DcMotor motor2) {
         this.motor = motor;
+        this.motor2 = motor2;
     }
 
     //Glyph Delivery
     public void stage1Delivery() throws InterruptedException {
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setTargetPosition(STAGE_1_DELIVERY);
-        motor.setPower(.5);
-       /* Thread.sleep(500);
+        motor2.setTargetPosition(STAGE_1_DELIVERY);
+        motor.setPower(.05);
+        motor2.setPower(.05);
+        Thread.sleep(1000);
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor.setPower(0);*/
+        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //motor.setPower(0);
     }
 
     public void stage2Delivery() throws InterruptedException {
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setTargetPosition(STAGE_2_DELIVERY);
-        motor.setPower(.5);
-       /* Thread.sleep(250);
+        motor2.setTargetPosition(STAGE_2_DELIVERY);
+        motor.setPower(.05);
+        motor2.setPower(.05);
+        Thread.sleep(900);
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor.setPower(0);*/
+        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //motor.setPower(0);
     }
 
     public void stage3Delivery() {
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setTargetPosition(STAGE_3_DELIVERY);
-        motor.setPower(.5);
+        motor.setPower(.05);
     }
 
     public void stage4Delivery() {
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setTargetPosition(STAGE_4_DELIVERY);
-        motor.setPower(.5);
+        motor.setPower(.05);
     }
 
     //Glyph Pick Up
     public void stage0PickUp() {
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setTargetPosition(STAGE_1_PICK_UP);
-        motor.setPower(.5);
+        motor.setPower(.05);
     }
 
     public void stage1PickUp() {
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setTargetPosition(STAGE_2_PICK_UP);
-        motor.setPower(.5);
+        motor.setPower(.05);
     }
 
     public void stage2PickUp() {
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setTargetPosition(STAGE_3_PICK_UP);
-        motor.setPower(.5);
+        motor.setPower(.05);
     }
 
     public void initialize() {
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motor.setPower(0);
+        motor2.setPower(0);
     }
 
     public void manuelcontrol(double power) {
@@ -85,13 +97,16 @@ public class ElevatorStages {
         if (Math.abs(power) >= .3) {
             usingElevatorJoystick = true;
             motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             motor.setPower(power);
+            motor2.setPower(power);
             elevatorPosition = motor.getCurrentPosition();
         } else if (usingElevatorJoystick) {
             usingElevatorJoystick = false;
-            // motor.setPower(.05);
-            motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motor.setTargetPosition(elevatorPosition);
+            motor.setPower(.05);
+            motor2.setPower(.05);
+            // motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            // motor.setTargetPosition(elevatorPosition);
         }
     }
 }
