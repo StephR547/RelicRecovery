@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.swerve;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 /**
  * Created by StephanieRamirez on 8/19/17.
  */
-
+@Disabled
 @TeleOp(name = "SwerveTeleop")
 public class SwerveTeleop extends LinearOpMode {
 

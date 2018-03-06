@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.mecanum;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -8,7 +9,7 @@ import org.firstinspires.ftc.teamcode.glyph.vacuum.DoubleVacuum;
 /**
  * Created by StephanieRamirez on 2/10/18.
  */
-
+@Disabled
 @TeleOp(name = "DoubleVacuumTest")
 public class DoubleVacuumTest extends LinearOpMode {
 
@@ -22,7 +23,7 @@ public class DoubleVacuumTest extends LinearOpMode {
         telemetry.log().add("StartingOpMode");
 
 
-        vacuumServos = new DoubleVacuum(hardwareMap.servo.get("topValveServo"), hardwareMap.servo.get("bottomValveServo"), hardwareMap.servo.get("flipServo"), hardwareMap.servo.get("lockServo"));
+        vacuumServos = new DoubleVacuum(hardwareMap.servo.get("topValveServo"), hardwareMap.servo.get("bottomValveServo"), hardwareMap.dcMotor.get("flipMotor"),hardwareMap.servo.get("lockServo"), hardwareMap.analogInput.get("magnetSensor"));
         vacuumServos.stop();
         vacuumServos.stopFlipAndLock();
 

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.pid;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 /**
  * Created by StephanieRamirez on 10/21/17.
  */
+@Disabled
 @TeleOp(name = "PIDTest")
 public class PIDTest extends LinearOpMode {
 

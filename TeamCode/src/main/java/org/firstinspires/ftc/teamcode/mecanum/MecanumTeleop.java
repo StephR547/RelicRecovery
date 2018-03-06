@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.mecanum;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.relic.AutomaticRelicElevator;
 
@@ -12,7 +13,6 @@ import org.firstinspires.ftc.teamcode.relic.AutomaticRelicElevator;
 public class MecanumTeleop extends LinearOpMode {
 
     private MecanumHardware robot = new MecanumHardware();
-    private AutomaticRelicElevator automaticRelicElevator;
 
     boolean previousButtonFlipValue = false;
 
@@ -24,11 +24,8 @@ public class MecanumTeleop extends LinearOpMode {
 
         telemetry.log().add("RobotInit");
 
-        robot.colorSensorTop.enableLed(false);
-        robot.colorSensorBottom.enableLed(false);
+        robot.disableSensors();
 
-
-        automaticRelicElevator = new AutomaticRelicElevator(robot);
 
         waitForStart();
 
@@ -109,6 +106,7 @@ public class MecanumTeleop extends LinearOpMode {
         }
 
         previousButtonFlipValue = gamepad2RightBumper;
+        telemetry.addData("MagnetValues", robot.vacuumServos.magnetSensor.getVoltage());
 
 
         //Relic Controls
@@ -164,6 +162,9 @@ public class MecanumTeleop extends LinearOpMode {
         {
             robot.tiltServos.stop();
         }
+       /* if (gamepad1.y) {
+            AutomaticBalancing();
+        } */
 
 
     }
@@ -171,9 +172,9 @@ public class MecanumTeleop extends LinearOpMode {
     public void elevatorControls() {
 
         //Glyph Joystick Control
-        robot.elevatorStages.manuelcontrol(-gamepad2.left_stick_y);
+        robot.elevatorStages.manualcontrol(-gamepad2.left_stick_y);
 
-        telemetry.addData("Encoderlift", robot.elevatorStages.motor.getCurrentPosition());
+        telemetry.addData("Encoderlift", robot.elevatorStages.getMotorPosition());
 
         //Relic Control
         robot.relicElevator.setPower(gamepad2.right_stick_y);
@@ -183,5 +184,25 @@ public class MecanumTeleop extends LinearOpMode {
 
     }
 
+    public void AutomaticBalancing() {
+        robot.frontLeftMotor.setPower(.40);
+        robot.frontRightMotor.setPower(.40);
+        robot.backLeftMotor.setPower(.40);
+        robot.backRightMotor.setPower(.40);
+
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+
+        }
+
+        robot.frontLeftMotor.setPower(0);
+        robot.frontRightMotor.setPower(0);
+        robot.backLeftMotor.setPower(0);
+        robot.backRightMotor.setPower(0);
+    }
 
 }
+
+
+

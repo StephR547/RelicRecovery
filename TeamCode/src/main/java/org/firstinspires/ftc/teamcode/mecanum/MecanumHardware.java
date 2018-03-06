@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.mecanum;
 
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -39,6 +39,8 @@ public class MecanumHardware {
     public IMU imu;
     public ColorSensor colorSensorTop;
     public ColorSensor colorSensorBottom;
+    public ModernRoboticsI2cRangeSensor redRangeSensor;
+    public ModernRoboticsI2cRangeSensor rangeSensor;
 
 
     private HardwareMap hwMap = null;
@@ -63,6 +65,7 @@ public class MecanumHardware {
 
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+
         elevatorStages.motor.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to zero power
@@ -89,12 +92,12 @@ public class MecanumHardware {
     public void initServos() {
 
         //Servos Define
-        vacuumServos = new DoubleVacuum(hwMap.servo.get("topValveServo"), hwMap.servo.get("bottomValveServo"), hwMap.servo.get("flipServo"), hwMap.servo.get("lockServo"));
+        vacuumServos = new DoubleVacuum(hwMap.servo.get("topValveServo"), hwMap.servo.get("bottomValveServo"), hwMap.dcMotor.get("flipMotor"), hwMap.servo.get("lockServo"), hwMap.analogInput.get("magnetSensor"));
         // vacuumLatch = new VacuumLatch(hwMap.servo.get("vacuumLatch"));
         jewelArm = hwMap.servo.get("jewelArm");
         relicClamp = new RelicClamp(hwMap.servo.get("relicClamp"));
         relicPivot = new RelicPivot(hwMap.servo.get("relicPivotLeft"), hwMap.servo.get("relicPivotRight"));
-        tiltServos = new TiltServos(hwMap.servo.get("tiltLeft"), hwMap.servo.get("tiltRight"));
+        tiltServos = new TiltServos(hwMap.servo.get("tiltLeft"), hwMap.servo.get("tiltRight"), hwMap.servo.get("tailHook"));
 
 
         //Servos Initialize
@@ -105,6 +108,7 @@ public class MecanumHardware {
         relicClamp.close();
         relicPivot.initilize();
         tiltServos.stop();
+        tiltServos.initiliaze();
 
     }
 
@@ -118,6 +122,20 @@ public class MecanumHardware {
         colorSensorBottom = hwMap.colorSensor.get("colorSensorBottom");
         colorSensorBottom.setI2cAddress(I2cAddr.create8bit(0x3a));
         colorSensorBottom.enableLed(true);
+
+        //Range Sensor initialize
+        redRangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "redRangeSensor");
+        redRangeSensor.setI2cAddress(I2cAddr.create8bit(0x4a));
+
+        rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
+        rangeSensor.setI2cAddress(I2cAddr.create8bit(0x4c));
+    }
+    public void disableSensors(){
+        colorSensorTop.close();
+        colorSensorTop.enableLed(false);
+        colorSensorBottom.close();
+        colorSensorBottom.enableLed(false);
+        rangeSensor.close();
     }
 }
 

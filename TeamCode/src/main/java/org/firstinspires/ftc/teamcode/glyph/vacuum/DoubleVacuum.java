@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.glyph.vacuum;
 
+import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
@@ -9,40 +11,41 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class DoubleVacuum {
     public Servo topValveServo;
     public Servo bottomValveServo;
-    public Servo flipServo;
+    public DcMotor flipMotor;
     public Servo lockServo;
+    public AnalogInput magnetSensor;
 
-    boolean isFlipped = false;
 
-    public DoubleVacuum(Servo topValveServo, Servo bottomValveServo, Servo flipServo, Servo lockServo) {
+    public DoubleVacuum(Servo topValveServo, Servo bottomValveServo, DcMotor flipMotor, Servo lockServo, AnalogInput magnetSensor) {
         this.topValveServo = topValveServo;
         this.bottomValveServo = bottomValveServo;
-        this.flipServo = flipServo;
+        this.flipMotor = flipMotor;
         this.lockServo = lockServo;
+        this.magnetSensor = magnetSensor;
     }
 
     public void release() {
-        if (isFlipped) {
-            topValveServo.setPosition(.8);
+        if (isFlipped()) {
+            topValveServo.setPosition(.9);
         } else {
-            bottomValveServo.setPosition(.8);
+            bottomValveServo.setPosition(.9);
         }
 
     }
 
     public void releaseTheTopServo() throws InterruptedException {
-        topValveServo.setPosition(.8);
+        bottomValveServo.setPosition(.9);
 
         Thread.sleep(300);
 
-        topValveServo.setPosition(.5);
+        bottomValveServo.setPosition(.5);
     }
 
     public void close() {
-        if (isFlipped) {
-            topValveServo.setPosition(.2);
+        if (isFlipped()) {
+            topValveServo.setPosition(.1);
         } else {
-            bottomValveServo.setPosition(.2);
+            bottomValveServo.setPosition(.1);
         }
 
     }
@@ -57,23 +60,27 @@ public class DoubleVacuum {
         lockServo.setPosition(.5);
 
         try {
-            Thread.sleep(200);
+            Thread.sleep(100);
         } catch (InterruptedException e) {
 
         }
-        if (isFlipped) {
-            flipServo.setPosition(1);
-            isFlipped = false;
+        if (isFlipped()) {
+            flipMotor.setPower(-.40);
+
         } else {
-            flipServo.setPosition(0);
-            isFlipped = true;
+            flipMotor.setPower(.40);
+
         }
 
     }
 
+    public boolean isFlipped() {
+        return magnetSensor.getVoltage() < 1;
+    }
+
     public void stopFlipAndLock() {
-        flipServo.setPosition(.5);
-        lockServo.setPosition(.7);
+        flipMotor.setPower(0);
+        lockServo.setPosition(.72);
     }
 
     public void flipContinue() {
@@ -85,12 +92,12 @@ public class DoubleVacuum {
         } catch (InterruptedException e) {
 
         }
-        if (isFlipped) {
-            flipServo.setPosition(0);
-        } else {
-            flipServo.setPosition(1);
-        }
+        if (isFlipped()) {
+            flipMotor.setPower(-.30);
 
+        } else {
+            flipMotor.setPower(.30);
+        }
     }
 }
 

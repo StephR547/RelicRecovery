@@ -16,7 +16,7 @@ public class MecanumRed extends MecanumAuton {
     public void jewelRemoval() throws InterruptedException {
 
         robot.jewelArm.setPosition(.90);
-        Thread.sleep(2000);
+        Thread.sleep(1000);
 
         int redT = robot.colorSensorTop.red();
         int blueT = robot.colorSensorTop.blue();
