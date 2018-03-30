@@ -11,6 +11,7 @@ public class TiltServos {
     public Servo servoRight;
     public Servo tailHookServo;
 
+
     public TiltServos(Servo servoLeft, Servo servoRight, Servo tailHookServo) {
         this.servoLeft = servoLeft;
         this.servoRight = servoRight;
@@ -31,12 +32,20 @@ public class TiltServos {
     }
 
     public void stop() {
-        servoLeft.setPosition(.51);
-        servoRight.setPosition(.49);
+        servoLeft.setPosition(.5);
+        servoRight.setPosition(.5);
     }
 
     public void initiliaze() {
         tailHookServo.setPosition(1);
+    }
+
+    public void intake() {
+        servoRight.setPosition(1);
+    }
+
+    public void intakeStop () {
+        servoRight.setPosition(.5);
     }
 }
 

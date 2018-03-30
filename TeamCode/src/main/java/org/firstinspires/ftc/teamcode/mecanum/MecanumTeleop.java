@@ -98,9 +98,6 @@ public class MecanumTeleop extends LinearOpMode {
             robot.vacuumServos.unlockAndFlip();
         } else if (gamepad2RightBumper == true && previousButtonFlipValue == true) {
             //Mandy holding right bumper down, Do nothing
-        } else if (gamepad2.b) {
-            robot.vacuumServos.flipContinue();
-
         } else {
             robot.vacuumServos.stopFlipAndLock();
         }
@@ -139,6 +136,13 @@ public class MecanumTeleop extends LinearOpMode {
 
         //Gamepad1 Servo Controls ~ Olivia Smalley
         //Jewel Arm
+
+        if (gamepad1.a)
+        {
+            robot.tiltServos.intake();
+        }else robot.tiltServos.intakeStop();
+
+
         if (gamepad1.dpad_up)
 
         {
@@ -149,7 +153,7 @@ public class MecanumTeleop extends LinearOpMode {
             robot.jewelArm.setPosition(.66);
         }
         //Tilt Arms
-        if (gamepad1.left_bumper)
+      /*  if (gamepad1.left_bumper)
 
         {
             robot.tiltServos.release();
@@ -161,6 +165,13 @@ public class MecanumTeleop extends LinearOpMode {
 
         {
             robot.tiltServos.stop();
+        } */
+        if (gamepad1.dpad_up && gamepad1.dpad_left) {
+            try {
+                robot.vacuumServos.releaseTheTopServo();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
        /* if (gamepad1.y) {
             AutomaticBalancing();

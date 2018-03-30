@@ -80,24 +80,11 @@ public class DoubleVacuum {
 
     public void stopFlipAndLock() {
         flipMotor.setPower(0);
-        lockServo.setPosition(.72);
+        lockServo.setPosition(.68);
     }
 
-    public void flipContinue() {
 
-        lockServo.setPosition(.5);
 
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
 
-        }
-        if (isFlipped()) {
-            flipMotor.setPower(-.30);
-
-        } else {
-            flipMotor.setPower(.30);
-        }
-    }
 }
 

@@ -20,7 +20,7 @@ public class MecanumRedFront extends MecanumRed {
         //drive(-ENCODER_ROTATION * 5);
         rotateLeftFast(-4700, 8);
         // rotateLeft(4700, 8);//4);
-        drive(2800);
+        drive(2700);
         //drive(800);
         strafeRight(500, 2);
         Slowdrive(-ENCODER_ROTATION, 1);

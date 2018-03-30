@@ -19,7 +19,7 @@ public class RelicClamp {
     }
 
     public void close() {
-        servo.setPosition(1);
+        servo.setPosition(.83);
     }
 
     public void initilize() {
