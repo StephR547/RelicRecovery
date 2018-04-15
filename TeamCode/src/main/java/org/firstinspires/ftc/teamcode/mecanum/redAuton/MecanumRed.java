@@ -13,6 +13,11 @@ import org.firstinspires.ftc.teamcode.mecanum.MecanumAuton;
 public class MecanumRed extends MecanumAuton {
 
     @Override
+    protected void deliverSecondGlyph() throws InterruptedException {
+        //Doesn't Work Yet
+    }
+
+    @Override
     public void jewelRemoval() throws InterruptedException {
 
         robot.jewelArm.setPosition(.90);
@@ -53,7 +58,10 @@ public class MecanumRed extends MecanumAuton {
                 telemetry.log().add("Unknown", "Unknown");
                 robot.jewelArm.setPosition(.004);
             }
+
+
         }
+
     }
 
     @Override

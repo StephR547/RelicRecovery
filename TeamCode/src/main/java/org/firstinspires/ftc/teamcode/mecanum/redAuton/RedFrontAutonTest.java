@@ -14,7 +14,7 @@ public class RedFrontAutonTest extends MecanumRed {
     public void driveToParkingZone() throws InterruptedException {
 
         drive(-2800);
-        rotateLeftFast(4700, 8);
+        rotateLeft(4700, 8, RotateSpeed.FAST, true);
         Slowdrive(-700, 2);
         drive(200, 1);
 
@@ -28,13 +28,13 @@ public class RedFrontAutonTest extends MecanumRed {
             telemetry.log().add("Left", RelicRecoveryVuMark.LEFT);
 
         } else if (vuMark == RelicRecoveryVuMark.CENTER) {
-            strafeRight(1700);
+            strafeLeft(1700);
             drive(200);
 
             telemetry.log().add("Center", RelicRecoveryVuMark.CENTER);
 
         } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-            strafeRight(300);
+            strafeLeft(300);
 
             telemetry.log().add("Right", RelicRecoveryVuMark.RIGHT);
 

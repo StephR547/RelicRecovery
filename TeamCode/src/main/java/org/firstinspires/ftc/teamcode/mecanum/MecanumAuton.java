@@ -24,6 +24,7 @@ public abstract class MecanumAuton extends LinearOpMode {
     @Override
 
     public void runOpMode() throws InterruptedException {
+       ElapsedTime timer = new ElapsedTime();
 
         telemetry.log().add("about to int");
         telemetry.update();
@@ -35,6 +36,8 @@ public abstract class MecanumAuton extends LinearOpMode {
         telemetry.update();
 
         waitForStart();
+
+        timer.reset();
 
         picture = vumark.getVuMark();
 
@@ -54,17 +57,15 @@ public abstract class MecanumAuton extends LinearOpMode {
 
         glyphAllignment(picture, telemetry);
 
-        // glyphDelivery();
+        if(timer.seconds() < 20) {
 
-        robot.relicPivot.autonUp();
-
-        Thread.sleep(3000);
-
-        robot.relicPivot.initilize();
+            deliverSecondGlyph();
+        }
 
         telemetry.update();
-
     }
+
+    protected abstract void deliverSecondGlyph() throws InterruptedException;
 
 
     public abstract void jewelRemoval() throws InterruptedException;
@@ -72,43 +73,38 @@ public abstract class MecanumAuton extends LinearOpMode {
     public abstract void glyphAllignment(RelicRecoveryVuMark vuMark, Telemetry telemetry) throws InterruptedException;
 
     public void glyphDeliveryBlue() throws InterruptedException {
-        robot.elevatorStages.stage1Delivery();
-        //Thread.sleep(700);
-        robot.elevatorStages.motor.setPower(.05);
-        robot.elevatorStages.motor2.setPower(.05);
-        drive(-350, 3);//1);
+        drive(-350, 3, false);
         robot.vacuumServos.releaseTheTopServo();
         Thread.sleep(200);
         robot.vacuumServos.stop();
-        drive(1000, 4);//2);
+        waitForMotors(3);
+
+        drive(1300, 4, false);
         robot.vacuumServos.release();
         Thread.sleep(200);
         robot.elevatorStages.stage2Delivery();
-       // Thread.sleep(900);
+        waitForMotors(4);
+
+
         robot.elevatorStages.motor.setPower(.05);
         robot.elevatorStages.motor2.setPower(.05);
-        drive(300);
-        drive(-1050, 3);//1);
+        drive(-1050, 3);
     }
 
     public void glyphDeliveryRed() throws InterruptedException {
-        robot.elevatorStages.stage1Delivery();
-        Thread.sleep(1000);
-        robot.elevatorStages.motor.setPower(.05);
-        robot.elevatorStages.motor2.setPower(.05);
-        drive(-200, 1);//1);
-        robot.vacuumServos.releaseTheTopServo();
-        Thread.sleep(200);
-        robot.vacuumServos.stop();
-        drive(900, 2);//2);
+        //drive(-350, 3, false);
+
+       // waitForMotors(3);
+
+        drive(1600, 4, false);
         robot.vacuumServos.release();
         Thread.sleep(200);
         robot.elevatorStages.stage2Delivery();
-        Thread.sleep(900);
+        waitForMotors(4);
+
         robot.elevatorStages.motor.setPower(.05);
         robot.elevatorStages.motor2.setPower(.05);
-        drive(300, 1);
-        drive(-1050, 2);
+        drive(-1050, 3);
     }
 
     public abstract void driveToParkingZone() throws InterruptedException;
@@ -117,75 +113,68 @@ public abstract class MecanumAuton extends LinearOpMode {
         //Intentional left blank, Glyph starts on robot already
 
     }
+    public enum RotateSpeed {FAST, SLOW}
 
-    public void rotateLeft(int distance) throws InterruptedException {
-        rotateLeft(distance, 3);//1);
+    public void rotateLeft(int distnace) throws InterruptedException{
+        rotateLeft(distnace, 3);
     }
 
     public void rotateLeft(int distance, double seconds) throws InterruptedException {
+        rotateLeft(distance, seconds, RotateSpeed.SLOW, true);
+    }
+
+    public void rotateLeft(int distance, double seconds, RotateSpeed speed, boolean waitForMotors) throws InterruptedException {
 
         resetEncoders();
 
         drivePower(0);
 
-        drivePower(.40);
+        if (speed == RotateSpeed.SLOW){
+            drivePower(.40);
+        } else if (speed == RotateSpeed.FAST) {
+            drivePower(.65);
+        }
+
+
 
         robot.frontLeftMotor.setTargetPosition(-distance);
         robot.frontRightMotor.setTargetPosition(distance);
         robot.backLeftMotor.setTargetPosition(-distance);
         robot.backRightMotor.setTargetPosition(distance);
 
-        waitForMotors(seconds);
+        if (waitForMotors) {
+            waitForMotors(seconds);
+        }
 
-        resetEncoders();
-
-        drivePower(0);
-
-    }
-    public void rotateLeftFast(int distance, double seconds) throws InterruptedException {
-
-        resetEncoders();
-
-        drivePower(0);
-
-        drivePower(.50);
-
-        robot.frontLeftMotor.setTargetPosition(-distance);
-        robot.frontRightMotor.setTargetPosition(distance);
-        robot.backLeftMotor.setTargetPosition(-distance);
-        robot.backRightMotor.setTargetPosition(distance);
-
-        waitForMotors(seconds);
-
-        resetEncoders();
-
-        drivePower(0);
 
     }
+
 
     public void drive(int distance) throws InterruptedException {
-        drive(distance, 6);//3);
+        drive(distance, 6);
+    }
+
+    public void drive(int distance, double seconds) throws InterruptedException {
+        drive(distance, seconds, true);
     }
 
 
-    public void drive(int distance, double seconds) throws InterruptedException {
+    public void drive(int distance, double seconds, boolean waitForMotors) throws InterruptedException {
 
         resetEncoders();
 
         drivePower(0);
 
-        drivePower(.50);
+        drivePower(.90);
 
         robot.frontLeftMotor.setTargetPosition(distance);
         robot.frontRightMotor.setTargetPosition(distance);
         robot.backLeftMotor.setTargetPosition(distance);
         robot.backRightMotor.setTargetPosition(distance);
 
-        waitForMotors(seconds);
-
-        resetEncoders();
-
-        drivePower(0);
+        if (waitForMotors) {
+            waitForMotors(seconds);
+        }
 
 
     }
@@ -205,17 +194,13 @@ public abstract class MecanumAuton extends LinearOpMode {
 
         waitForMotors(seconds);
 
-        resetEncoders();
-
-        drivePower(0);
-
 
     }
 
 
     public void acceleration(int distance) throws InterruptedException {
-        double maxSpeed = .60;
-        double minSpeed = .30;
+        double maxSpeed = .90;
+        double minSpeed = .40;
         int encoderTolerance = 10;
 
         resetEncoders();
@@ -242,12 +227,15 @@ public abstract class MecanumAuton extends LinearOpMode {
 
     }
 
-    public void strafeRight(int distance) throws InterruptedException {
-        strafeRight(distance, 8); //4);
+    public void strafeLeft(int distance) throws InterruptedException {
+        strafeLeft(distance, 8);
+    }
+    public void strafeLeft(int distance, double seconds) throws InterruptedException {
+        strafeLeft(distance, seconds, true);
     }
 
 
-    public void strafeRight(int distance, double seconds) throws InterruptedException {
+    public void strafeLeft(int distance, double seconds, boolean waitForMotors) throws InterruptedException {
 
         resetEncoders();
 
@@ -261,11 +249,9 @@ public abstract class MecanumAuton extends LinearOpMode {
         robot.backLeftMotor.setTargetPosition(distance);
         robot.backRightMotor.setTargetPosition(-distance);
 
-        waitForMotors(seconds);
-
-        resetEncoders();
-
-        drivePower(0);
+        if (waitForMotors) {
+            waitForMotors(seconds);
+        }
 
 
     }
@@ -286,10 +272,6 @@ public abstract class MecanumAuton extends LinearOpMode {
 
         waitForMotors(seconds);
 
-        resetEncoders();
-
-        drivePower(0);
-
 
     }
 
@@ -299,6 +281,9 @@ public abstract class MecanumAuton extends LinearOpMode {
         while (!(stopWatch.seconds() > timeout || motorsHaveReachedTheirTargetPosition())) {
 
         }
+        resetEncoders();
+
+        drivePower(0);
     }
 
     protected boolean motorsHaveReachedTheirTargetPosition() {
@@ -323,7 +308,8 @@ public abstract class MecanumAuton extends LinearOpMode {
         robot.backLeftMotor.setPower(power);
         robot.backRightMotor.setPower(power);
     }
-    public int cmToEncoderTics (double cm) {
+
+    public int cmToEncoderTics(double cm) {
         cm = (ENCODER_ROTATION / ((4 * 3.14) * 2.54)) * cm;
         return (int) cm;
 

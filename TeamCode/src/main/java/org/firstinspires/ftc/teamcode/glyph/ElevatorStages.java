@@ -10,7 +10,7 @@ public class ElevatorStages {
     public DcMotor motor;
     public DcMotor motor2;
 
-    final int STAGE_1_DELIVERY = 2500;
+    final int STAGE_1_DELIVERY = 1500;
     final int STAGE_2_DELIVERY = 3500;
     final int STAGE_3_DELIVERY = 15000;
     final int STAGE_4_DELIVERY = 19500;
@@ -36,7 +36,7 @@ public class ElevatorStages {
         motor.setTargetPosition(STAGE_1_DELIVERY);
         motor2.setTargetPosition(STAGE_1_DELIVERY);
         setMotorPower(.50);
-        Thread.sleep(2000);
+        Thread.sleep(1500);
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         // setMotorPower(0);

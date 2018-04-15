@@ -15,24 +15,24 @@ import org.firstinspires.ftc.teamcode.mecanum.MecanumHardware;
 public class RangeSensorAutonAlignment extends LinearOpMode {
 
 
-    ModernRoboticsI2cRangeSensor rangeSensor;
-    ModernRoboticsI2cRangeSensor redRangeSensor;
+    ModernRoboticsI2cRangeSensor leftRangeSensor;
+    ModernRoboticsI2cRangeSensor rightRangeSensor;
 
     @Override
     public void runOpMode() {
 
         // get a reference to our compass
-        rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
-        rangeSensor.setI2cAddress(I2cAddr.create8bit(0x4c));
+        leftRangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "leftRangeSensor");
+        leftRangeSensor.setI2cAddress(I2cAddr.create8bit(0x4c));
 
-        redRangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "redRangeSensor");
-        redRangeSensor.setI2cAddress(I2cAddr.create8bit(0x4a));
+        rightRangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rightRangeSensor");
+        rightRangeSensor.setI2cAddress(I2cAddr.create8bit(0x4a));
         // wait for the start button to be pressed
         waitForStart();
 
         while (opModeIsActive()) {
-            telemetry.addData("TargetDistance_37", rangeSensor.rawUltrasonic());
-            telemetry.addData("RightRangeSensor", redRangeSensor.rawUltrasonic());
+            telemetry.addData("TargetDistance_37", leftRangeSensor.rawUltrasonic());
+            telemetry.addData("RightRangeSensor", rightRangeSensor.rawUltrasonic());
             telemetry.update();
 
         }

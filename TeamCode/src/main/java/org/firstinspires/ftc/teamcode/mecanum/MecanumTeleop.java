@@ -2,9 +2,6 @@ package org.firstinspires.ftc.teamcode.mecanum;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-
-import org.firstinspires.ftc.teamcode.relic.AutomaticRelicElevator;
 
 /**
  * Created by StephanieRamirez on 9/22/17.
@@ -15,6 +12,7 @@ public class MecanumTeleop extends LinearOpMode {
     private MecanumHardware robot = new MecanumHardware();
 
     boolean previousButtonFlipValue = false;
+    boolean previousButtonTiltValue = false;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -45,8 +43,8 @@ public class MecanumTeleop extends LinearOpMode {
           /* double heading = robot.imu.getheading();
             double headingInRadians = Math.toRadians(heading);
 
-            double temp = forward * Math.cos(headingInRadians) + strafeRight * Math.sin(headingInRadians);
-            strafeRight = -forward * Math.sin(headingInRadians) + strafeRight * Math.cos(headingInRadians);
+            double temp = forward * Math.cos(headingInRadians) + strafeLeft * Math.sin(headingInRadians);
+            strafeLeft = -forward * Math.sin(headingInRadians) + strafeLeft * Math.cos(headingInRadians);
             forward = temp;
             */
 
@@ -74,7 +72,7 @@ public class MecanumTeleop extends LinearOpMode {
             telemetry.addData("backLeftMotor", robot.backLeftMotor.getPower());
             telemetry.addData("backRightMotor", robot.backRightMotor.getPower());
 
-            servosControls();
+            servosControls(rotateRight);
             elevatorControls();
 
             telemetry.update();
@@ -82,8 +80,9 @@ public class MecanumTeleop extends LinearOpMode {
 
     }
 
-    public void servosControls() {
+    public void servosControls(double rotateRight) {
         boolean gamepad2RightBumper = gamepad2.right_bumper;
+
 
         //Gamepad2 Servo Controls ~ Mandy
         //Vacuum Controls
@@ -137,41 +136,43 @@ public class MecanumTeleop extends LinearOpMode {
         //Gamepad1 Servo Controls ~ Olivia Smalley
         //Jewel Arm
 
-        if (gamepad1.a)
-        {
-            robot.tiltServos.intake();
-        }else robot.tiltServos.intakeStop();
-
-
-        if (gamepad1.dpad_up)
-
-        {
+        if (gamepad1.dpad_up) {
             robot.jewelArm.setPosition(.008);
-        } else if (gamepad1.dpad_down)
 
-        {
+        } else if (gamepad1.dpad_down) {
             robot.jewelArm.setPosition(.66);
         }
+
+
+
         //Tilt Arms
-      /*  if (gamepad1.left_bumper)
-
-        {
-            robot.tiltServos.release();
-        } else if (gamepad1.left_trigger > .2)
-
-        {
-            robot.tiltServos.retracte();
-        } else
-
-        {
+        boolean gamepad1LeftTrigger = gamepad1.left_trigger > .2;
+        if (gamepad1LeftTrigger && previousButtonTiltValue == false) {
+            robot.tiltServos.tiltToggle();
+        } else if (gamepad1LeftTrigger && previousButtonTiltValue) {
+            //Servos are already told to rotate
+        } else {
             robot.tiltServos.stop();
-        } */
+        }
         if (gamepad1.dpad_up && gamepad1.dpad_left) {
             try {
                 robot.vacuumServos.releaseTheTopServo();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+        previousButtonTiltValue = gamepad1LeftTrigger;
+
+
+        if (gamepad1.right_bumper) {
+            robot.tiltServos.servosIntake(rotateRight);
+        } else {
+            robot.tiltServos.serovsIntakeStop();
+        }
+        if (gamepad1.left_bumper) {
+            robot.tiltServos.tailHookLower();
+        }else {
+            robot.tiltServos.tailHookRetract();
         }
        /* if (gamepad1.y) {
             AutomaticBalancing();
@@ -204,7 +205,7 @@ public class MecanumTeleop extends LinearOpMode {
         try {
             Thread.sleep(1500);
         } catch (InterruptedException e) {
-
+            //here
         }
 
         robot.frontLeftMotor.setPower(0);

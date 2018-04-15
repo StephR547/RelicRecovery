@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.balancingBoard.TiltServos;
 import org.firstinspires.ftc.teamcode.glyph.ElevatorStages;
 import org.firstinspires.ftc.teamcode.glyph.vacuum.DoubleVacuum;
-import org.firstinspires.ftc.teamcode.glyph.vacuum.VacuumLatch;
 import org.firstinspires.ftc.teamcode.relic.RelicClamp;
 import org.firstinspires.ftc.teamcode.relic.RelicPivot;
 import org.firstinspires.ftc.teamcode.sensors.IMU;
@@ -39,8 +38,8 @@ public class MecanumHardware {
     public IMU imu;
     public ColorSensor colorSensorTop;
     public ColorSensor colorSensorBottom;
-    public ModernRoboticsI2cRangeSensor redRangeSensor;
-    public ModernRoboticsI2cRangeSensor rangeSensor;
+    public ModernRoboticsI2cRangeSensor rightRangeSensor;
+    public ModernRoboticsI2cRangeSensor leftRangeSensor;
 
 
     private HardwareMap hwMap = null;
@@ -92,24 +91,38 @@ public class MecanumHardware {
     public void initServos() {
 
         //Servos Define
-        vacuumServos = new DoubleVacuum(hwMap.servo.get("topValveServo"), hwMap.servo.get("bottomValveServo"), hwMap.dcMotor.get("flipMotor"), hwMap.servo.get("lockServo"), hwMap.analogInput.get("magnetSensor"));
+        vacuumServos = new DoubleVacuum(
+                hwMap.servo.get("topValveServo"),
+                hwMap.servo.get("bottomValveServo"),
+                hwMap.dcMotor.get("flipMotor"),
+                hwMap.servo.get("lockServo"),
+                hwMap.analogInput.get("magnetSensor")
+        );
         // vacuumLatch = new VacuumLatch(hwMap.servo.get("vacuumLatch"));
         jewelArm = hwMap.servo.get("jewelArm");
         relicClamp = new RelicClamp(hwMap.servo.get("relicClamp"));
         relicPivot = new RelicPivot(hwMap.servo.get("relicPivotLeft"), hwMap.servo.get("relicPivotRight"));
-        tiltServos = new TiltServos(hwMap.servo.get("tiltLeft"), hwMap.servo.get("tiltRight"), hwMap.servo.get("tailHook"));
+        tiltServos = new TiltServos(
+                hwMap.servo.get("tiltLeft"),
+                hwMap.servo.get("tiltRight"),
+                hwMap.servo.get("tailHook"),
+                hwMap.servo.get("intakeLeft"),
+                hwMap.servo.get("intakeRight")
+        );
 
 
         //Servos Initialize
         vacuumServos.stop();
         vacuumServos.stopFlipAndLock();
         // vacuumLatch.intialize();
-        jewelArm.setPosition(.1);
+        jewelArm.setPosition(.030);
         relicClamp.close();
         relicPivot.initilize();
         tiltServos.stop();
         tiltServos.initiliaze();
         tiltServos.intakeStop();
+
+        tiltServos.serovsIntakeStop();
 
     }
 
@@ -125,18 +138,19 @@ public class MecanumHardware {
         colorSensorBottom.enableLed(true);
 
         //Range Sensor initialize
-        redRangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "redRangeSensor");
-        redRangeSensor.setI2cAddress(I2cAddr.create8bit(0x4a));
+        rightRangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rightRangeSensor");
+        rightRangeSensor.setI2cAddress(I2cAddr.create8bit(0x4a));
 
-        rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
-        rangeSensor.setI2cAddress(I2cAddr.create8bit(0x4c));
+        leftRangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "leftRangeSensor");
+        leftRangeSensor.setI2cAddress(I2cAddr.create8bit(0x4c));
     }
-    public void disableSensors(){
+
+    public void disableSensors() {
         colorSensorTop.close();
         colorSensorTop.enableLed(false);
         colorSensorBottom.close();
         colorSensorBottom.enableLed(false);
-        rangeSensor.close();
+        leftRangeSensor.close();
     }
 }
 
