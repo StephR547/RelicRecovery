@@ -63,7 +63,7 @@ public class MecanumRedAudience extends MecanumRed {
     @Override
     public void glyphAllignment(RelicRecoveryVuMark vuMark, Telemetry telemetry) throws InterruptedException {
         if (vuMark == RelicRecoveryVuMark.LEFT || vuMark == RelicRecoveryVuMark.UNKNOWN) {
-            drive(-5210, 5, false);
+            drive(-5260, 5, false);
             robot.elevatorStages.stage1Delivery();
             robot.elevatorStages.motor.setPower(.05);
             robot.elevatorStages.motor2.setPower(.05);
@@ -72,7 +72,7 @@ public class MecanumRedAudience extends MecanumRed {
            // acceleration(-2500 + -2000);
             strafeLeft(-800, 4);
 
-            rotateLeft(2245, 6, RotateSpeed.FAST, false);
+            rotateLeft(2315, 6, RotateSpeed.FAST, false);
             robot.vacuumServos.releaseTheTopServo();
             Thread.sleep(200);
             robot.vacuumServos.stop();
@@ -100,7 +100,7 @@ public class MecanumRedAudience extends MecanumRed {
             robot.vacuumServos.stop();
             waitForMotors(4);
 
-            rotateLeft(2255, 6, RotateSpeed.FAST, false);
+            rotateLeft(2315, 6, RotateSpeed.FAST, false);
             robot.vacuumServos.releaseTheTopServo();
             Thread.sleep(200);
             robot.vacuumServos.stop();
@@ -114,7 +114,7 @@ public class MecanumRedAudience extends MecanumRed {
             telemetry.log().add("Center", RelicRecoveryVuMark.CENTER);
 
         } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-            drive(-3890, 5, false);
+            drive(-3640, 5, false);
             robot.elevatorStages.stage1Delivery();
             robot.elevatorStages.motor.setPower(.05);
             robot.elevatorStages.motor2.setPower(.05);
@@ -126,7 +126,7 @@ public class MecanumRedAudience extends MecanumRed {
             robot.vacuumServos.stop();
             waitForMotors(4);
 
-            rotateLeft(2245, 6, RotateSpeed.FAST, false);
+            rotateLeft(2315, 6, RotateSpeed.FAST, false);
             robot.vacuumServos.releaseTheTopServo();
             Thread.sleep(200);
             robot.vacuumServos.stop();

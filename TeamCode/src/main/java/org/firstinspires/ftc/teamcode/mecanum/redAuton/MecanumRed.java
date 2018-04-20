@@ -29,6 +29,7 @@ public class MecanumRed extends MecanumAuton {
         int redB = robot.colorSensorBottom.red();
         int blueB = robot.colorSensorBottom.blue();
 
+
         if (redT > blueT) {
             telemetry.log().add("STATE (R): ", "Red");
             rotateLeft(ENCODER_ROTATION / 4);
@@ -54,28 +55,72 @@ public class MecanumRed extends MecanumAuton {
                 robot.jewelArm.setPosition(.004);
                 Thread.sleep(500);
                 rotateLeft(ENCODER_ROTATION / 4);
+
             } else {
                 telemetry.log().add("Unknown", "Unknown");
-                robot.jewelArm.setPosition(.004);
+                robot.colorSensorTop.enableLed(false);
+                robot.colorSensorBottom.enableLed(false);
+                Thread.sleep(1000);
+                redT = robot.colorSensorTop.red();
+                blueT = robot.colorSensorTop.blue();
+
+                redB = robot.colorSensorBottom.red();
+                blueB = robot.colorSensorBottom.blue();
+
+                if (redT > blueT) {
+                    telemetry.log().add("STATE (R): ", "Red");
+                    rotateLeft(ENCODER_ROTATION / 4);
+                    robot.jewelArm.setPosition(.004);
+                    Thread.sleep(500);
+                    rotateLeft(-ENCODER_ROTATION / 4);
+                } else if (redT < blueT) {
+                    telemetry.log().add("STATE (B): ", "Blue");
+                    rotateLeft(-ENCODER_ROTATION / 4);
+                    robot.jewelArm.setPosition(.004);
+                    Thread.sleep(500);
+                    rotateLeft(ENCODER_ROTATION / 4);
+                } else {
+                    if (redB > blueB) {
+                        telemetry.log().add("STATE (R)(Backup): ", "Red-Backup");
+                        rotateLeft(ENCODER_ROTATION / 4);
+                        robot.jewelArm.setPosition(.004);
+                        Thread.sleep(500);
+                        rotateLeft(-ENCODER_ROTATION / 4);
+                    } else if (redB < blueB) {
+                        telemetry.log().add("STATE (B)(Backup): ", "Blue-Backup");
+                        rotateLeft(-ENCODER_ROTATION / 4);
+                        robot.jewelArm.setPosition(.004);
+                        Thread.sleep(500);
+                        rotateLeft(ENCODER_ROTATION / 4);
+
+                    } else {
+                        telemetry.log().add("Unknown", "Unknown");
+                        robot.jewelArm.setPosition(.004);
+
+                    }
+                }
+
+
             }
+
+        }
+    }
+
+        @Override
+        public void glyphAllignment (RelicRecoveryVuMark vuMark, Telemetry telemetry) throws
+        InterruptedException {
 
 
         }
 
+        @Override
+        public void driveToParkingZone () throws InterruptedException {
+
+            drive(-ENCODER_ROTATION * 3);
+            rotateLeft(2000);
+        }
+
+
     }
 
-    @Override
-    public void glyphAllignment(RelicRecoveryVuMark vuMark, Telemetry telemetry) throws InterruptedException {
-
-    }
-
-    @Override
-    public void driveToParkingZone() throws InterruptedException {
-
-        drive(-ENCODER_ROTATION * 3);
-        rotateLeft(2000);
-    }
-
-
-}
 

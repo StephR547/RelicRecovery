@@ -22,7 +22,6 @@ public class MecanumTeleop extends LinearOpMode {
 
         telemetry.log().add("RobotInit");
 
-        robot.disableSensors();
 
 
         waitForStart();
@@ -143,8 +142,6 @@ public class MecanumTeleop extends LinearOpMode {
             robot.jewelArm.setPosition(.66);
         }
 
-
-
         //Tilt Arms
         boolean gamepad1LeftTrigger = gamepad1.left_trigger > .2;
         if (gamepad1LeftTrigger && previousButtonTiltValue == false) {
@@ -164,12 +161,12 @@ public class MecanumTeleop extends LinearOpMode {
         previousButtonTiltValue = gamepad1LeftTrigger;
 
 
-        if (gamepad1.right_bumper) {
+        if (gamepad1.left_bumper) {
             robot.tiltServos.servosIntake(rotateRight);
         } else {
             robot.tiltServos.serovsIntakeStop();
         }
-        if (gamepad1.left_bumper) {
+        if (gamepad1.right_bumper) {
             robot.tiltServos.tailHookLower();
         }else {
             robot.tiltServos.tailHookRetract();

@@ -58,6 +58,7 @@ public class MecanumBlueAudience extends MecanumBlue {
         drive(4200, 4, false);
         robot.tiltServos.serovsIntakeStop();
         robot.tiltServos.retract();
+        robot.relicPivot.autonUp();
         waitForMotors(4);
 
         robot.tiltServos.stop();

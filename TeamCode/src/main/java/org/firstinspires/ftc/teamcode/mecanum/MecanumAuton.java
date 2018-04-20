@@ -92,9 +92,6 @@ public abstract class MecanumAuton extends LinearOpMode {
     }
 
     public void glyphDeliveryRed() throws InterruptedException {
-        //drive(-350, 3, false);
-
-       // waitForMotors(3);
 
         drive(1600, 4, false);
         robot.vacuumServos.release();
@@ -105,6 +102,25 @@ public abstract class MecanumAuton extends LinearOpMode {
         robot.elevatorStages.motor.setPower(.05);
         robot.elevatorStages.motor2.setPower(.05);
         drive(-1050, 3);
+    }
+    public void glyphDeliveryRedFront() throws InterruptedException {
+        robot.vacuumServos.releaseTheTopServo();
+        Thread.sleep(200);
+        robot.vacuumServos.stop();
+
+        drive(1000, 4, false);
+        robot.vacuumServos.release();
+        Thread.sleep(200);
+        robot.elevatorStages.stage2Delivery();
+        waitForMotors(4);
+
+        robot.elevatorStages.motor.setPower(.05);
+        robot.elevatorStages.motor2.setPower(.05);
+        drive(-1050, 3, false);
+        robot.relicPivot.autonUp();
+        Thread.sleep(1500);
+        robot.relicPivot.initilize();
+        waitForMotors(3);
     }
 
     public abstract void driveToParkingZone() throws InterruptedException;
@@ -127,8 +143,6 @@ public abstract class MecanumAuton extends LinearOpMode {
 
         resetEncoders();
 
-        drivePower(0);
-
         if (speed == RotateSpeed.SLOW){
             drivePower(.40);
         } else if (speed == RotateSpeed.FAST) {
@@ -148,6 +162,29 @@ public abstract class MecanumAuton extends LinearOpMode {
 
 
     }
+    public void driveSlow(int distance) throws InterruptedException {
+        driveSlow(distance, 6);
+    }
+
+    public void driveSlow(int distance, double seconds) throws InterruptedException {
+        driveSlow(distance, seconds, true);
+    }
+    public void driveSlow(int distance, double seconds, boolean waitForMotors) throws InterruptedException {
+
+        resetEncoders();
+
+        drivePower(.40);
+
+        robot.frontLeftMotor.setTargetPosition(distance);
+        robot.frontRightMotor.setTargetPosition(distance);
+        robot.backLeftMotor.setTargetPosition(distance);
+        robot.backRightMotor.setTargetPosition(distance);
+
+        if (waitForMotors) {
+            waitForMotors(seconds);
+        }
+    }
+
 
 
     public void drive(int distance) throws InterruptedException {
@@ -162,8 +199,6 @@ public abstract class MecanumAuton extends LinearOpMode {
     public void drive(int distance, double seconds, boolean waitForMotors) throws InterruptedException {
 
         resetEncoders();
-
-        drivePower(0);
 
         drivePower(.90);
 
@@ -205,8 +240,6 @@ public abstract class MecanumAuton extends LinearOpMode {
 
         resetEncoders();
 
-        drivePower(0);
-
         drivePower(minSpeed);
 
         robot.frontLeftMotor.setTargetPosition(distance);
@@ -239,9 +272,6 @@ public abstract class MecanumAuton extends LinearOpMode {
 
         resetEncoders();
 
-        drivePower(0);
-
-
         drivePower(.60);
 
         robot.frontLeftMotor.setTargetPosition(-distance);
@@ -259,9 +289,6 @@ public abstract class MecanumAuton extends LinearOpMode {
     public void strafeRightSlow(int distance, double seconds) throws InterruptedException {
 
         resetEncoders();
-
-        drivePower(0);
-
 
         drivePower(.50);
 

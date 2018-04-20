@@ -23,12 +23,13 @@ public class VuMarkIdentifier {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
         parameters.vuforiaLicenseKey = "AYwCxIP/////AAAAGQzeKdmpGUn1kGmZI0bo3vVMRDLMD/glTdrU85D7TxTjmF1/tQh1d60MkTeBGuKY7RVs/Yi4PikyBNVCOWfuzRs54q2AoDTcF3Df1NtvWivja/J/pvzFOsXPSY74juxp2lK+VIy1hwCz8NWZtQ61KL3OztfDjB6YgxbHG1N0JaAy6natZTQPCgTe3NzD1FxR6r4R4pOXOw/TuzqFcxx6+JM1VHcWOToX7Jg/IB4t4V9r5CImuGNnf4rK+sQQh+pbm/sfoBhOgv9PWEonlrWNixjPCYGZp5R/qsxHq5Tq69Vdb8NAIN8wyYPeYu/FQpShQxN/1rsTlFKsg7gWn9rNAbhddCxCwr8tHWUnNyNRQgjH";
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
 
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 
         VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         relicTemplate = relicTrackables.get(0);
+
 
 
         relicTemplate.setName("relicVuMarkTemplate");

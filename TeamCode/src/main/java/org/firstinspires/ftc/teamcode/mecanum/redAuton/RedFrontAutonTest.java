@@ -12,36 +12,55 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 public class RedFrontAutonTest extends MecanumRed {
     @Override
     public void driveToParkingZone() throws InterruptedException {
+        rotateLeft(-2350, 8, RotateSpeed.SLOW, true);
+        driveSlow(3400);
 
-        drive(-2800);
+        rotateLeft(-2350, 8, RotateSpeed.SLOW, false);
+        robot.elevatorStages.stage1Delivery();
+        robot.elevatorStages.motor.setPower(.05);
+        robot.elevatorStages.motor2.setPower(.05);
+        waitForMotors(8);
+
+        driveSlow(2550);
+
+       /* drive(-2800);
+
         rotateLeft(4700, 8, RotateSpeed.FAST, true);
+        robot.elevatorStages.stage1Delivery();
+        robot.elevatorStages.motor.setPower(.05);
+        robot.elevatorStages.motor2.setPower(.05);
+        waitForMotors(8);
+
         Slowdrive(-700, 2);
-        drive(200, 1);
+        drive(200, 1);*/
 
     }
 
     @Override
     public void glyphAllignment(RelicRecoveryVuMark vuMark, Telemetry telemetry) throws InterruptedException {
         if (vuMark == RelicRecoveryVuMark.LEFT || vuMark == RelicRecoveryVuMark.UNKNOWN) {
-            strafeRightSlow(2900 , 7);//4);
+            strafeLeft(-1550);
+            drive(-300);
 
             telemetry.log().add("Left", RelicRecoveryVuMark.LEFT);
 
         } else if (vuMark == RelicRecoveryVuMark.CENTER) {
-            strafeLeft(1700);
-            drive(200);
+            strafeLeft(-2650);
+            drive(-300);
+
 
             telemetry.log().add("Center", RelicRecoveryVuMark.CENTER);
 
         } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-            strafeLeft(300);
+            strafeLeft(-3750);
+            drive(-300);
 
             telemetry.log().add("Right", RelicRecoveryVuMark.RIGHT);
 
         }
         telemetry.update();
 
-        glyphDeliveryRed();
+        glyphDeliveryRedFront();
 
     }
 }
