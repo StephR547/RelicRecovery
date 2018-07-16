@@ -10,9 +10,9 @@ public class ElevatorStages {
     public DcMotor motor;
     public DcMotor motor2;
 
-    final int STAGE_1_DELIVERY = 1500;
-    final int STAGE_2_DELIVERY = 3500;
-    final int STAGE_3_DELIVERY = 15000;
+    final int STAGE_1_DELIVERY = 2500;
+    final int STAGE_2_DELIVERY = 4000;
+    final int STAGE_3_DELIVERY = 5000;
     final int STAGE_4_DELIVERY = 19500;
 
     final int STAGE_1_PICK_UP = 6000;
@@ -35,7 +35,7 @@ public class ElevatorStages {
         motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setTargetPosition(STAGE_1_DELIVERY);
         motor2.setTargetPosition(STAGE_1_DELIVERY);
-        setMotorPower(.50);
+        setMotorPower(.80);
         Thread.sleep(1500);
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -47,11 +47,21 @@ public class ElevatorStages {
         motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setTargetPosition(STAGE_2_DELIVERY);
         motor2.setTargetPosition(STAGE_2_DELIVERY);
-        setMotorPower(.30);
-        Thread.sleep(900);
+        setMotorPower(.60);
+        Thread.sleep(1500);
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //setMotorPower(0);
+    }
+    public void stage3Delivery() throws InterruptedException {
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor.setTargetPosition(STAGE_3_DELIVERY);
+        motor2.setTargetPosition(STAGE_3_DELIVERY);
+        setMotorPower(.70);
+        Thread.sleep(1600);
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     public void setMotorPower(double power) {

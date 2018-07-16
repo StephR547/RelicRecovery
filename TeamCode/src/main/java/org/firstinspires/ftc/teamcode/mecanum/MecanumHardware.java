@@ -115,12 +115,13 @@ public class MecanumHardware {
         vacuumServos.stop();
         vacuumServos.stopFlipAndLock();
         // vacuumLatch.intialize();
-        jewelArm.setPosition(.030);
+        jewelArm.setPosition(.008);
         relicClamp.close();
         relicPivot.initilize();
         tiltServos.stop();
         tiltServos.initiliaze();
         tiltServos.intakeStop();
+        tiltServos.tailHookRetract();
 
         tiltServos.serovsIntakeStop();
 
@@ -145,12 +146,5 @@ public class MecanumHardware {
         leftRangeSensor.setI2cAddress(I2cAddr.create8bit(0x4c));
     }
 
-    public void disableSensors() {
-        colorSensorTop.close();
-        colorSensorTop.enableLed(false);
-        colorSensorBottom.close();
-        colorSensorBottom.enableLed(false);
-        leftRangeSensor.close();
-    }
 }
 

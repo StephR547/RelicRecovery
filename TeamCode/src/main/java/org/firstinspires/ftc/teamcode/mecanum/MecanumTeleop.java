@@ -71,6 +71,13 @@ public class MecanumTeleop extends LinearOpMode {
             telemetry.addData("backLeftMotor", robot.backLeftMotor.getPower());
             telemetry.addData("backRightMotor", robot.backRightMotor.getPower());
 
+            telemetry.addData("frontLeftMotor", robot.frontLeftMotor.getCurrentPosition());
+            telemetry.addData("frontRightMotor", robot.frontLeftMotor.getCurrentPosition());
+            telemetry.addData("backLeftMotor", robot.backLeftMotor.getCurrentPosition());
+            telemetry.addData("backRightMotor", robot.backRightMotor.getCurrentPosition());
+
+
+
             servosControls(rotateRight);
             elevatorControls();
 

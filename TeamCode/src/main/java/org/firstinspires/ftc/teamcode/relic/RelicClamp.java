@@ -15,11 +15,11 @@ public class RelicClamp {
     }
 
     public void release() {
-        servo.setPosition(.5);
+        servo.setPosition(0);
     }
 
     public void close() {
-        servo.setPosition(.83);
+        servo.setPosition(.8);
     }
 
     public void initilize() {

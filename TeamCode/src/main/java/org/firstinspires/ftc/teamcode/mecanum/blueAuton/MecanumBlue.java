@@ -111,6 +111,6 @@ public class MecanumBlue extends MecanumAuton {
             @Override
             public void driveToParkingZone () throws InterruptedException {
 
-                drive(ENCODER_ROTATION * 3);
+                drive(4700);
             }
         }

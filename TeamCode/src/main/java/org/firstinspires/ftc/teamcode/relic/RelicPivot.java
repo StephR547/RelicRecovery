@@ -19,15 +19,19 @@ public class RelicPivot {
 
     //Servo
     public void up() {
-        servo.setPosition(.1);
-        servo2.setPosition(.8);
-    }
-
-    public void down() {
         servo.setPosition(.8);
         servo2.setPosition(.1);
     }
+
+    public void down() {
+        servo.setPosition(.1);
+        servo2.setPosition(.8);
+    }
     public void autonUp() {
+        servo.setPosition(1);
+        servo2.setPosition(0);
+    }
+    public void autonDown(){
         servo.setPosition(0);
         servo2.setPosition(1);
     }

@@ -8,8 +8,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 /**
  * Created by StephanieRamirez on 3/1/18.
  */
-@Autonomous(name = "RedFrontTest")
-public class RedFrontAutonTest extends MecanumRed {
+@Autonomous(name = "MecanumRedBackSingle")
+public class MecanumRedBackSingle extends MecanumRed {
     @Override
     public void driveToParkingZone() throws InterruptedException {
         rotateLeft(-2350, 8, RotateSpeed.SLOW, true);
@@ -21,7 +21,13 @@ public class RedFrontAutonTest extends MecanumRed {
         robot.elevatorStages.motor2.setPower(.05);
         waitForMotors(8);
 
-        driveSlow(2550);
+        driveSlow(2550, 7, false);
+        robot.relicPivot.autonUp();
+        Thread.sleep(800);
+        robot.relicPivot.autonDown();
+        waitForMotors(7);
+
+
 
        /* drive(-2800);
 

@@ -53,9 +53,14 @@ public class MecanumRedAudience extends MecanumRed {
             rotateLeft(3000, 8, RotateSpeed.FAST, true);
         }
 
+        drive(4200, 4, false);
         robot.tiltServos.serovsIntakeStop();
         robot.tiltServos.retract();
-        drive(4200, 4);
+        robot.relicPivot.autonUp();
+        Thread.sleep(800);
+        robot.relicPivot.autonDown();
+        waitForMotors(4);
+
         robot.tiltServos.stop();
         drive(-300);
     }
